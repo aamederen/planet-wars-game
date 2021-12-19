@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/terrain_rampLarge_detailed.obj-a25ad40ebc766923dd90a1a61827b4fa.mesh"
+
+[deps]
+
+files=[ "res://.import/terrain_rampLarge_detailed.obj-a25ad40ebc766923dd90a1a61827b4fa.mesh" ]
+
+source_file="res://models/terrain_rampLarge_detailed.obj"
+dest_files=[ "res://.import/terrain_rampLarge_detailed.obj-a25ad40ebc766923dd90a1a61827b4fa.mesh", "res://.import/terrain_rampLarge_detailed.obj-a25ad40ebc766923dd90a1a61827b4fa.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

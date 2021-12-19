@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/craft_racer.obj-f965281f6a14fcbd68c8b8238ed83bdf.mesh"
+
+[deps]
+
+files=[ "res://.import/craft_racer.obj-f965281f6a14fcbd68c8b8238ed83bdf.mesh" ]
+
+source_file="res://models/craft_racer.obj"
+dest_files=[ "res://.import/craft_racer.obj-f965281f6a14fcbd68c8b8238ed83bdf.mesh", "res://.import/craft_racer.obj-f965281f6a14fcbd68c8b8238ed83bdf.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

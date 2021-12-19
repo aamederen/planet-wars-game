@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/platform_cornerOpen.obj-6a26b0c23a7014957e5f3e4b2322e86f.mesh"
+
+[deps]
+
+files=[ "res://.import/platform_cornerOpen.obj-6a26b0c23a7014957e5f3e4b2322e86f.mesh" ]
+
+source_file="res://models/platform_cornerOpen.obj"
+dest_files=[ "res://.import/platform_cornerOpen.obj-6a26b0c23a7014957e5f3e4b2322e86f.mesh", "res://.import/platform_cornerOpen.obj-6a26b0c23a7014957e5f3e4b2322e86f.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

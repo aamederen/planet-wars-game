@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/pipe_corner.obj-0047b460cace11aedb3a39cd876ae7bc.mesh"
+
+[deps]
+
+files=[ "res://.import/pipe_corner.obj-0047b460cace11aedb3a39cd876ae7bc.mesh" ]
+
+source_file="res://models/pipe_corner.obj"
+dest_files=[ "res://.import/pipe_corner.obj-0047b460cace11aedb3a39cd876ae7bc.mesh", "res://.import/pipe_corner.obj-0047b460cace11aedb3a39cd876ae7bc.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/turret_double.obj-fddcdbd8c82d1e617e06a3f9923ee562.mesh"
+
+[deps]
+
+files=[ "res://.import/turret_double.obj-fddcdbd8c82d1e617e06a3f9923ee562.mesh" ]
+
+source_file="res://models/turret_double.obj"
+dest_files=[ "res://.import/turret_double.obj-fddcdbd8c82d1e617e06a3f9923ee562.mesh", "res://.import/turret_double.obj-fddcdbd8c82d1e617e06a3f9923ee562.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
