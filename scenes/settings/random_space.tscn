@@ -6,7 +6,7 @@
 
 [node name="RandomSpace" type="Spatial"]
 script = ExtResource( 2 )
-cameraBounds = [ Vector3( -50, -50, 10 ), Vector3( 100, 100, 200 ) ]
+cameraBounds = [ Vector3( -150, -150, 10 ), Vector3( 150, 150, 200 ) ]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 1 )

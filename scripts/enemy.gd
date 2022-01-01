@@ -1,4 +1,4 @@
-extends Node
+extends Reference
 class_name Enemy
 
 var reapperance_chance = 0.1
@@ -35,7 +35,7 @@ func grow(bb, world):
 	if total_infection == 0:
 		rng.randomize()
 		if (rng.randf() < reapperance_chance):
-			var random_index = rng.randi() & planets.size()
+			var random_index = rng.randi() % planets.size()
 			var victim_planet = planets[random_index]
 			victim_planet.infection_rate = 0.1
 			_log("INFECTED PLANET " + str(victim_planet))

@@ -22,7 +22,11 @@ func remove_money(mny:int):
 	
 func add_ship(ship):
 	ships.append(ship)
-	
+
+func add_planet(planet):
+	planet.set_title(player_name)
+	planets.append(planet)
+
 func remove_planet(planet):
 	pass
 

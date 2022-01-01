@@ -37,7 +37,7 @@ func generate_space():
 		
 		for j in planet_count:
 			var planet = create_random_planet(green_planet)
-			bot.planets.append(planet)
+			bot.add_planet(planet)
 		
 		bb.register_bot(bot)
 	
