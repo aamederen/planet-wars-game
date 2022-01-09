@@ -29,7 +29,10 @@ func add_planet(planet):
 	planets.append(planet)
 
 func remove_planet(planet):
-	pass
+	planet.set_title("")
+	planets.remove(planets.find(planet))
+	# TODO: Assign ships to another planet
+	# Destroy the bot if all planets are dead
 
 func think_and_play(bb, world):
 	# here comes the AI

@@ -14,16 +14,19 @@ func think_and_play(bb, world):
 	_log("enemy thinking")
 	
 	# Jump to a next object
+	var planets = _get_planets_with_infection(world)
+	
+	for planet in planets:
+		var ships_near_planet = _get_ships_around_planet(planet, world)
+		for ship in ships_near_planet:
+			if ship.infection == 0:
+				if _should_infect_ship(planet, ship):
+					ship.set_infection_rate(growth_coefficient)
 
 func grow(bb, world):
 	_log("growing")
-	var planets = []
 	
-	for obj in world:
-		if obj.has_method("get_player_name"): # If the object is a user...
-			for plnt in obj.planets:
-				planets.append(plnt)
-	
+	var planets = _get_planets_with_infection(world)
 	var total_infection = 0
 				
 	for planet in planets:
@@ -39,8 +42,24 @@ func grow(bb, world):
 			var victim_planet = planets[random_index]
 			victim_planet.infection_rate = 0.1
 			_log("INFECTED PLANET " + str(victim_planet))
+
+func _get_planets_with_infection(world):
+	var planets = []
 	
+	for obj in world:
+		if obj.has_method("get_player_name"): # If the object is a user...
+			for plnt in obj.planets:
+				planets.append(plnt)
+				
+	return planets
+		
+func _get_ships_around_planet(planet,world):
+	pass # TODO
+	return []
 	
+func _should_infect_ship(planet, ship):
+	return false # TODO
+
 func _log(msg):
 	print("[enemy] ", msg)
 	

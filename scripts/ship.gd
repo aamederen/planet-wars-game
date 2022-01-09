@@ -11,6 +11,7 @@ export var destination:Vector3
 var cur_velocity = 0
 var task
 var home_planet:Planet
+var infection_rate = 0
 
 func _init():
 	pass
@@ -31,7 +32,11 @@ func is_at_destination():
 		return false
 	
 	return self.destination.distance_squared_to(translation) < 101
-	
+
+func set_infection_rate(new_rate):
+	self.infection_rate = new_rate
+	$Label/Viewport/Label.text = "Infection: %d%%" % (self.infection_rate*100)
+
 func _physics_process(delta):
 	if is_active():
 		var direction = translation.direction_to(destination)

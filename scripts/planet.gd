@@ -9,7 +9,6 @@ export var radius = 10
 
 # Game properties
 var infection_rate = 0
-var docked_ships = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

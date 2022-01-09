@@ -78,7 +78,11 @@ func _on_turntimer_timeout():
 
 func _manage_world():
 	pass
-	# Remove Control of Players in infected planets
+	# TODO: Remove Control of Players in infected planets
+	for bot in bots:
+		for planet in bot.planets:
+			if planet.infection_rate == 1:
+				bot.remove_planet(planet)
 	
 	# Destroy completely infected ships
 
@@ -114,6 +118,7 @@ func complete_process(process):
 		var bot = process["bot"]
 		var ship = get_owner().create_new_ship(process["ship_type"], planet)
 		ship.home_planet = planet
+		ship.set_infection_rate(0)
 		bot.add_ship(ship)
 
 func register_bot(bot:Bot):
