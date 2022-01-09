@@ -25,6 +25,7 @@ func add_ship(ship):
 
 func add_planet(planet):
 	planet.set_title(player_name)
+	planet.set_infection(0)
 	planets.append(planet)
 
 func remove_planet(planet):

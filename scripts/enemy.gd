@@ -28,7 +28,7 @@ func grow(bb, world):
 				
 	for planet in planets:
 		if planet.infection_rate > 0 && planet.infection_rate < 1:
-			planet.infection_rate = min(planet.infection_rate + growth_coefficient, 1)
+			planet.set_infection(min(planet.infection_rate + growth_coefficient, 1))
 
 		total_infection += planet.infection_rate
 	
