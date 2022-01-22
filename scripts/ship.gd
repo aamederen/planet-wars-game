@@ -33,7 +33,7 @@ func is_at_destination():
 	
 	return self.destination.distance_squared_to(translation) < 101
 
-func set_infection_rate(new_rate):
+func set_infection(new_rate):
 	self.infection_rate = new_rate
 	$Label/Viewport/Label.text = "Infection: %d%%" % (self.infection_rate*100)
 

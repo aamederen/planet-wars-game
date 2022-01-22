@@ -34,7 +34,6 @@ func _physics_process(delta):
 	pass
 		
 func _on_aitimer_timeout(): # Allow bots to behave!
-	print("think time!")
 	for bot in bots:
 		bot.think_and_play(self, _get_world_of_bot(bot))
 	
@@ -44,7 +43,6 @@ func _on_turntimer_timeout():
 	next_money_turns_left -= 1
 	
 	if next_money_turns_left == 0:
-		print("it's money day!!!")
 		next_money_turns_left = 5
 		for bot in bots:
 			var money = bot.planets.size() * 10 + rng.randi_range(0, 10)
@@ -57,7 +55,6 @@ func _on_turntimer_timeout():
 				if ship.is_at_home():
 					ship.task = null
 					bot.add_money(200)
-					print("Adding money to bot ", bot.player_name, " for trading")
 				else:
 					ship.destination = ship.home_planet.translation
 			
@@ -85,6 +82,14 @@ func _manage_world():
 				bot.remove_planet(planet)
 	
 	# Destroy completely infected ships
+	
+func _owner_of_planet(p:Planet):
+	for bot in bots:
+		for planet in bot.planets:
+			if planet == p:
+				return bot
+	
+	return null
 
 func _get_world():
 	randomize()
@@ -96,6 +101,16 @@ func _get_world_of_bot(bot:Bot):
 	# TODO: everyone can see everything for now, but this should change later
 	var world = _get_world()
 	return world
+	
+func _get_objects_near(t:Vector3):
+	return [] # TODO: fill
+
+func explode_ship(ship:Ship):
+	var bot = _owner_of_planet(ship.home_planet)
+	
+	print("SHIP EXPLODED!")
+	bot.remove_ship(ship)
+	ship.queue_free()
 	
 func assign_task(task):
 	var ship = task["ship"]
@@ -110,7 +125,6 @@ func assign_task(task):
 			ship.destination = source_planet.translation
 		
 	ship.task = task
-		
 
 func complete_process(process):
 	if process["type"] == "build_ship":
@@ -118,7 +132,7 @@ func complete_process(process):
 		var bot = process["bot"]
 		var ship = get_owner().create_new_ship(process["ship_type"], planet)
 		ship.home_planet = planet
-		ship.set_infection_rate(0)
+		ship.set_infection(0)
 		bot.add_ship(ship)
 
 func register_bot(bot:Bot):
@@ -138,4 +152,3 @@ func create_ship(bot:Bot, type:String, planet:Planet):
 			"turns_left": 5
 		}
 		processes.append(process)
-		print("started a new ship building process for ", bot.player_name)

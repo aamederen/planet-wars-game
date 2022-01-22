@@ -20,8 +20,14 @@ func add_money(mny:int):
 func remove_money(mny:int):
 	money -= mny
 	
+func summarize():
+	_log("Money: %d, planets: %d, ships: %d" % [self.money, self.planets.size(), self.ships.size()])
+	
 func add_ship(ship):
 	ships.append(ship)
+	
+func remove_ship(ship):
+	ships.remove(ships.find(ship))
 
 func add_planet(planet):
 	planet.set_title(player_name)
@@ -36,13 +42,11 @@ func remove_planet(planet):
 
 func think_and_play(bb, world):
 	# here comes the AI
-	_log("thinking...")
 	
 	# TODO: if there's an enemy nearby and have excess money, attack it
 	
-	# if I have money and enemy is not close, create a trading ship
-	if money > 500:
-		_log("decided to create a ship")
+	# if I have money 
+	if money > 500 && ships.size() < 5:
 		randomize()
 		var random_planet = planets[randi() % planets.size()]
 		bb.create_ship(self, "trading", random_planet)
@@ -57,8 +61,6 @@ func think_and_play(bb, world):
 	# Check my current ships and assign tasks to the idle ones
 	for ship in ships:
 		if not ship.is_active():
-			_log("activating a ship...")
-			
 			if visible_planets.size() == 0:
 				continue
 			
@@ -71,8 +73,7 @@ func think_and_play(bb, world):
 				"target": trade_target
 			})
 			
-	
-	_log("my money is %d" % money) 
+	summarize()
 	
 func get_player_name():
 	return player_name
