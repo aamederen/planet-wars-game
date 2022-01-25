@@ -11,8 +11,9 @@ func _init():
 
 func think_and_play(bb, world):
 	# here comes the AI
+	rng.randomize()
 	
-	# Jump to a next object
+	# Jump from planet to ships
 	var planets = _get_planets_with_infection(world)
 	
 	for planet in planets:
@@ -23,6 +24,18 @@ func think_and_play(bb, world):
 					ship.set_infection(min(ship.infection_rate + growth_coefficient, 1))
 					planet.set_infection(min(planet.infection_rate / 2, 0.1))
 					_log("INFECTED a SHIP!")
+					
+	# Jump from a ship to another planet
+	var ships = _get_ships_with_infection(world)
+	
+	for ship in ships:
+		var planets_near_ship = _get_planets_around_ship(ship, world)
+		for planet in planets_near_ship:
+			if planet.infection_rate == 0:
+				if _should_infect_planet(ship, planet):
+					planet.set_infection(growth_coefficient)
+					ship.set_infection(0)
+					_log("INFECTION JUMPED TO A PLANET")
 
 func grow(bb, world):
 	var all_planets = _all_planets(world)
@@ -91,8 +104,22 @@ func _get_ships_around_planet(planet,world):
 			
 	return ships
 	
+func _get_planets_around_ship(ship, world):
+	var planets = []
+	
+	for obj in world:
+		if obj is Bot:
+			for planet in obj.planets:
+				# TODO: Check distance
+				planets.append(planet)
+				
+	return planets
+	
 func _should_infect_ship(planet, ship):
-	return planet.infection_rate > 0.8 and ship.infection_rate < 0.2 
+	return planet.infection_rate > 0.8 and ship.infection_rate < 0.2 and rng.randf() < 0.3
+	
+func _should_infect_planet(ship, planet):
+	return ship.infection_rate > 0.6 and rng.randf() < 0.1
 
 func _log(msg):
 	print("[enemy] ", msg)
