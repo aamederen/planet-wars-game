@@ -30,6 +30,22 @@ func think_and_play(bb, world):
 	
 	for ship in ships:
 		var planets_near_ship = _get_planets_around_ship(ship, world)
+		var ships_near_ship = _get_ships_around_ship(ship, world)
+		
+		if ship.infection_rate == 1:
+			for planet in planets_near_ship:
+				if planet.infection_rate == 0 && rng.randf() < 0.05:
+					planet.set_infection(growth_coefficient)
+					_log("EXPLOSION JUMPED TO PLANET")
+					
+			for s in ships_near_ship:
+				if s.infection_rate == 0 && rng.randf() < 0.1:
+					s.set_infection(growth_coefficient)
+					_log("EXPLOSION JUMPED TO SHIP")
+					
+			bb.explode_ship(ship)
+			continue
+		
 		for planet in planets_near_ship:
 			if planet.infection_rate == 0:
 				if _should_infect_planet(ship, planet):
@@ -51,9 +67,6 @@ func grow(bb, world):
 	for ship in ships:
 		ship.set_infection(min(ship.infection_rate + growth_coefficient, 1))
 		total_infection += ship.infection_rate
-		
-		if ship.infection_rate == 1:
-			bb.explode_ship(ship)
 	
 	if total_infection == 0:
 		if (rng.randf() < reapperance_chance):
@@ -114,6 +127,17 @@ func _get_planets_around_ship(ship, world):
 				planets.append(planet)
 				
 	return planets
+	
+func _get_ships_around_ship(ship, world):
+	var ships = []
+	
+	for obj in world:
+		if obj is Bot:
+			for s in obj.ships:
+				# TODO: Check distance
+				ships.append(s)
+				
+	return ships
 	
 func _should_infect_ship(planet, ship):
 	return planet.infection_rate > 0.8 and ship.infection_rate < 0.2 and rng.randf() < 0.3
