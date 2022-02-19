@@ -5,18 +5,22 @@ var reapperance_chance = 0.1
 var spread_coefficient = 0.01
 var growth_coefficient = 0.02
 var rng = RandomNumberGenerator.new()
+var planets = []
 
 func _init():
 	pass
+	
+func add_planet(planet:Planet):
+	planets.append(planet)
 
 func think_and_play(bb, world):
 	# here comes the AI
 	rng.randomize()
 	
 	# Jump from planet to ships
-	var planets = _get_planets_with_infection(world)
+	var infected_planets = _get_planets_with_infection(world)
 	
-	for planet in planets:
+	for planet in infected_planets:
 		var ships_near_planet = _get_ships_around_planet(planet, world)
 		for ship in ships_near_planet:
 			if ship.infection_rate == 0:
@@ -28,6 +32,7 @@ func think_and_play(bb, world):
 	# Jump from a ship to another planet
 	var ships = _get_ships_with_infection(world)
 	
+	# TODO: Move this to big brain
 	for ship in ships:
 		var planets_near_ship = _get_planets_around_ship(ship, world)
 		var ships_near_ship = _get_ships_around_ship(ship, world)
@@ -54,13 +59,12 @@ func think_and_play(bb, world):
 					_log("INFECTION JUMPED TO A PLANET")
 
 func grow(bb, world):
-	var all_planets = _all_planets(world)
-	var planets = _get_planets_with_infection(world)
+	var infected_planets = _get_planets_with_infection(world)
 	var ships = _get_ships_with_infection(world)
 	var total_infection = 0
 	rng.randomize()
 				
-	for planet in planets:
+	for planet in infected_planets:
 		planet.set_infection(min(planet.infection_rate + growth_coefficient, 1))
 		total_infection += planet.infection_rate
 		
@@ -70,36 +74,37 @@ func grow(bb, world):
 	
 	if total_infection == 0:
 		if (rng.randf() < reapperance_chance):
+			var all_planets = _bot_planets(world)
 			var random_index = rng.randi() % all_planets.size()
 			var victim_planet = all_planets[random_index]
 			victim_planet.infection_rate = 0.1
 			_log("INFECTED PLANET " + str(victim_planet))
 			
-	_log("Ships: %d, Planets: %d, total: %s" % [ships.size(), planets.size(), total_infection])
+	_log("Ships: %d, Infected Planets: %d, total: %s" % [ships.size(), infected_planets.size(), total_infection])
 
-func _all_planets(world):
-	var planets = []
+func _bot_planets(world):
+	var bot_planets = []
 	for obj in world:
 		if obj is Bot:
 			for planet in obj.planets:
-				planets.append(planet)
+				bot_planets.append(planet)
 	
-	return planets
+	return bot_planets
 
 func _get_planets_with_infection(world):
-	var planets = []
-	var all_planets = _all_planets(world)
+	var infected_planets = []
+	var all_planets = _bot_planets(world)
 	for plnt in all_planets:
 		if plnt.infection_rate > 0:
-			planets.append(plnt)
+			infected_planets.append(plnt)
 				
-	return planets
+	return infected_planets
 		
 func _get_ships_with_infection(world):
 	var ships = []
 	
 	for obj in world:
-		if obj.has_method("get_player_name"): # If the object is a user...
+		if obj.has_method("ships"): # If the object is a user...
 			for ship in obj.ships:
 				if ship.infection_rate > 0:
 					ships.append(ship)
@@ -118,15 +123,15 @@ func _get_ships_around_planet(planet,world):
 	return ships
 	
 func _get_planets_around_ship(ship, world):
-	var planets = []
+	var planets_around_ship = []
 	
 	for obj in world:
 		if obj is Bot:
 			for planet in obj.planets:
 				# TODO: Check distance
-				planets.append(planet)
+				planets_around_ship.append(planet)
 				
-	return planets
+	return planets_around_ship
 	
 func _get_ships_around_ship(ship, world):
 	var ships = []

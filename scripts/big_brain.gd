@@ -81,8 +81,7 @@ func _manage_world():
 		for planet in bot.planets:
 			if planet.infection_rate == 1:
 				bot.remove_planet(planet)
-	
-	# Destroy completely infected ships
+				enemy.add_planet(planet)
 	
 func _owner_of_planet(p:Planet):
 	for bot in bots:
@@ -94,7 +93,7 @@ func _owner_of_planet(p:Planet):
 
 func _get_world():
 	randomize()
-	var world = bots + gaia
+	var world = bots + gaia + [enemy]
 	world.shuffle()
 	return world
 

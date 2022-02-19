@@ -56,20 +56,19 @@ func remove_planet(planet):
 func think_and_play(bb, world):
 	# here comes the AI
 	
-	# TODO: if there's an enemy nearby and have excess money, attack it
 	if planets.size() == 0:
 		return
 	
-	# if I have money 
+	# if I have money, trade!!!
 	if money > 500 && ships.size() < 5:
 		randomize()
 		var random_planet = planets[randi() % planets.size()]
 		bb.create_ship(self, "trading", random_planet)
 		
-	# Find a trading target
+	# Find possible trading targets
 	var visible_planets = []
 	for obj in world:
-		if obj.has_method("get_player_name"): # If the object is a user...
+		if obj.has_method("planets"): # If the object is a user...
 			for plnt in obj.planets:
 				visible_planets.append(plnt)
 	
@@ -88,6 +87,9 @@ func think_and_play(bb, world):
 				"source": closest_planet_to(ship.translation),
 				"target": trade_target
 			})
+			
+	# If I have money, attach an enemy-occupied planet
+	
 			
 	summarize()
 
