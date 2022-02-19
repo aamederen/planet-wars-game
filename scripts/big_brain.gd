@@ -52,11 +52,12 @@ func _on_turntimer_timeout():
 	for bot in bots:
 		for ship in bot.ships:
 			if ship.is_active() and ship.task["type"] == "trade" and ship.is_at_destination():
-				if ship.is_at_home():
+				if ship.arrived_at(ship.task["source"]):
+					bot.add_money(ship.task["value"])
 					ship.task = null
-					bot.add_money(200)
 				else:
-					ship.destination = ship.home_planet.translation
+					ship.task["state"] = "returning_to_base"
+					ship.destination = ship.task["source"].translation
 			
 	var processes_to_be_removed = []
 	for process in processes:
@@ -106,7 +107,7 @@ func _get_objects_near(t:Vector3):
 	return [] # TODO: fill
 
 func explode_ship(ship:Ship):
-	var bot = _owner_of_planet(ship.home_planet)
+	var bot = ship.owner_player
 	
 	print("SHIP EXPLODED!")
 	bot.remove_ship(ship)
@@ -117,11 +118,15 @@ func assign_task(task):
 	
 	if task["type"] == "trade":
 		var target_planet := task["target"] as Planet
-		var source_planet := ship.home_planet as Planet
+		var source_planet := task["source"] as Planet
 		
-		if (ship.is_at_home()):
+		task["value"] = target_planet.translation.distance_squared_to(source_planet.translation)
+		
+		if (ship.arrived_at(source_planet)):
+			task["state"] = "going_to_target"
 			ship.destination = target_planet.translation
 		else:
+			task["state"] = "going_to_base"
 			ship.destination = source_planet.translation
 		
 	ship.task = task
@@ -131,7 +136,7 @@ func complete_process(process):
 		var planet = process["planet"]
 		var bot = process["bot"]
 		var ship = get_owner().create_new_ship(process["ship_type"], planet)
-		ship.home_planet = planet
+		ship.owner_player = bot
 		ship.set_infection(0)
 		bot.add_ship(ship)
 

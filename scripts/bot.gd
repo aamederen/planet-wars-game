@@ -37,13 +37,28 @@ func add_planet(planet):
 func remove_planet(planet):
 	planet.set_title("")
 	planets.remove(planets.find(planet))
+	
 	# TODO: Assign ships to another planet
-	# Destroy the bot if all planets are dead
+	for s in ships:
+		if s.task:
+			if s.task["source"] == planet:
+				s.task = null
+				_log("Canceling ship task because base is destroyed")
+			elif s.task["state"] == "going_to_taget" && s.task["target"] == planet:
+				s.task = null
+				_log("Canceling ship task because the target planet is gone")
+			elif s.task["state"] == "returning_to_base" && s.task["target"] == planet:
+				s.task["value"] = 10 * s.task["value"]
+				_log("Source of goods is gone now, trade value has increased")
+	
+	# TODO: Destroy the bot if all planets are dead
 
 func think_and_play(bb, world):
 	# here comes the AI
 	
 	# TODO: if there's an enemy nearby and have excess money, attack it
+	if planets.size() == 0:
+		return
 	
 	# if I have money 
 	if money > 500 && ships.size() < 5:
@@ -70,10 +85,22 @@ func think_and_play(bb, world):
 			bb.assign_task({
 				"type": "trade",
 				"ship": ship,
+				"source": closest_planet_to(ship.translation),
 				"target": trade_target
 			})
 			
 	summarize()
+
+func closest_planet_to(target:Vector3):
+	var min_dist = INF
+	var min_planet = null
+	for p in planets:
+		var dist = p.translation.distance_squared_to(target)
+		if dist < min_dist:
+			min_planet = p
+			min_dist = dist
+			
+	return min_planet
 	
 func get_player_name():
 	return player_name

@@ -22,7 +22,7 @@ func think_and_play(bb, world):
 			if ship.infection_rate == 0:
 				if _should_infect_ship(planet, ship):
 					ship.set_infection(min(ship.infection_rate + growth_coefficient, 1))
-					planet.set_infection(min(planet.infection_rate / 2, 0.1))
+					# planet.set_infection(min(planet.infection_rate / 2, 0.1))
 					_log("INFECTED a SHIP!")
 					
 	# Jump from a ship to another planet
