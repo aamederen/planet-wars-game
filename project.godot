@@ -30,6 +30,11 @@ _global_script_classes=[ {
 "path": "res://scripts/planet.gd"
 }, {
 "base": "KinematicBody",
+"class": "Rocket",
+"language": "GDScript",
+"path": "res://scripts/rocket.gd"
+}, {
+"base": "KinematicBody",
 "class": "Ship",
 "language": "GDScript",
 "path": "res://scripts/ship.gd"
@@ -39,6 +44,7 @@ _global_script_class_icons={
 "Bot": "",
 "Enemy": "",
 "Planet": "",
+"Rocket": "",
 "Ship": ""
 }
 

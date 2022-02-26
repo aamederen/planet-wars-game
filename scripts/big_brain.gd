@@ -8,6 +8,7 @@ class_name BigBrain
 var rng = RandomNumberGenerator.new()
 var bots = []
 var gaia = []
+var rockets = []
 var enemy:Enemy = Enemy.new()
 var aitimer:Timer = Timer.new()
 var turntimer:Timer = Timer.new()
@@ -34,6 +35,7 @@ func _physics_process(delta):
 	pass
 		
 func _on_aitimer_timeout(): # Allow bots to behave!
+	bots.shuffle()
 	for bot in bots:
 		bot.think_and_play(self, _get_world_of_bot(bot))
 	
@@ -82,6 +84,25 @@ func _manage_world():
 			if planet.infection_rate == 1:
 				bot.remove_planet(planet)
 				enemy.add_planet(planet)
+				
+	var rockets_to_be_removed = []
+	
+	for rocket in rockets:
+		if rocket.distance_to_destination() < 100:
+			rockets_to_be_removed.append(rocket)
+			
+			var bot = rocket.owner_bot
+			var planet = rocket.target_planet
+			
+			if planet.infection_rate > 0:
+				planet.set_infection(max(planet.infection_rate - 0.1, 0))
+				if planet.infection_rate == 0:
+					enemy.remove_planet(planet)
+					bot.add_planet(planet)
+					
+	for r in rockets_to_be_removed:
+		rockets.remove(rockets.find(r))
+		r.queue_free()
 	
 func _owner_of_planet(p:Planet):
 	for bot in bots:
@@ -93,8 +114,11 @@ func _owner_of_planet(p:Planet):
 
 func _get_world():
 	randomize()
-	var world = bots + gaia + [enemy]
-	world.shuffle()
+	var world = {
+		"bots": bots,
+		"gaia": gaia,
+		"enemy": enemy	
+	}
 	return world
 
 func _get_world_of_bot(bot:Bot):
@@ -138,6 +162,13 @@ func complete_process(process):
 		ship.owner_player = bot
 		ship.set_infection(0)
 		bot.add_ship(ship)
+	elif process["type"] == "build_rocket":
+		var from_planet = process["from_planet"]
+		var to_planet = process["to_planet"]
+		var bot = process["bot"]
+		var rocket = get_owner().create_big_rocket(from_planet)
+		rocket.set_mission(bot, to_planet)
+		rockets.append(rocket)
 
 func register_bot(bot:Bot):
 	bots.append(bot)
@@ -153,6 +184,19 @@ func create_ship(bot:Bot, type:String, planet:Planet):
 			"planet": planet,
 			"type": "build_ship",
 			"ship_type": "trading",
+			"turns_left": 5
+		}
+		processes.append(process)
+		
+func create_rocket(bot:Bot, type:String, from_planet:Planet, to_planet:Planet):
+	if type == "attack":
+		bot.remove_money(1000)
+		var process = {
+			"bot": bot,
+			"type": "build_rocket",
+			"rocket_type": "attack",
+			"from_planet": from_planet,
+			"to_planet": to_planet,
 			"turns_left": 5
 		}
 		processes.append(process)

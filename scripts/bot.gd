@@ -53,6 +53,8 @@ func remove_planet(planet):
 	
 	# TODO: Destroy the bot if all planets are dead
 
+
+
 func think_and_play(bb, world):
 	# here comes the AI
 	
@@ -67,12 +69,11 @@ func think_and_play(bb, world):
 		
 	# Find possible trading targets
 	var visible_planets = []
-	for obj in world:
-		if obj.has_method("planets"): # If the object is a user...
-			for plnt in obj.planets:
-				visible_planets.append(plnt)
+	for bot in world["bots"]:
+		for planet in bot.planets:
+			visible_planets.append(planet)
 	
-	# Check my current ships and assign tasks to the idle ones
+	# Check my current ships and ashsign tasks to the idle ones
 	for ship in ships:
 		if not ship.is_active():
 			if visible_planets.size() == 0:
@@ -88,9 +89,16 @@ func think_and_play(bb, world):
 				"target": trade_target
 			})
 			
-	# If I have money, attach an enemy-occupied planet
-	
+	# TODO: If I have money, attack an enemy-occupied planet
+	if money > 1000  and world["enemy"].planets.size() > 0:
+		for enemy_planet in world["enemy"].planets:
+			var my_closest_planet = closest_planet_to(enemy_planet.translation)
+			var dist = my_closest_planet.translation.distance_squared_to(enemy_planet.translation)
 			
+			if (dist < 10000):
+				bb.create_rocket(self, "attack", my_closest_planet, enemy_planet)
+				break
+
 	summarize()
 
 func closest_planet_to(target:Vector3):

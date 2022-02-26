@@ -1,4 +1,5 @@
 extends KinematicBody
+class_name Rocket
 
 # Declare member variables here. Examples:
 export var max_velocity = 200
@@ -8,9 +9,17 @@ export var destination:Vector3 = Vector3(25, 20, 0)
 var cur_velocity = 0
 var speeding = true
 
+var owner_bot = null
+var target_planet = null
+
+
+func set_mission(owner_bot:Bot, target:Planet):
+	self.owner_bot = owner_bot
+	self.target_planet = target
+	self.destination = target.translation
+
 func _ready():
 	pass # Replace with function body.
-	
 	
 func _physics_process(delta):
 	var direction = translation.direction_to(destination)
@@ -31,6 +40,9 @@ func _physics_process(delta):
 		
 	if translation.distance_squared_to(destination) < 25:
 		speeding = false
+		
+func distance_to_destination():
+	return translation.distance_squared_to(destination)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

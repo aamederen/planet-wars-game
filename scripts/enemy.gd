@@ -3,7 +3,7 @@ class_name Enemy
 
 var reapperance_chance = 0.1
 var spread_coefficient = 0.01
-var growth_coefficient = 0.02
+var growth_coefficient = 0.01
 var rng = RandomNumberGenerator.new()
 var planets = []
 
@@ -11,7 +11,12 @@ func _init():
 	pass
 	
 func add_planet(planet:Planet):
+	planet.set_title("ENEMY")
 	planets.append(planet)
+
+func remove_planet(planet):
+	planet.set_title("")
+	planets.remove(planets.find(planet))
 
 func think_and_play(bb, world):
 	# here comes the AI
@@ -59,6 +64,10 @@ func think_and_play(bb, world):
 					_log("INFECTION JUMPED TO A PLANET")
 
 func grow(bb, world):
+	var all_planets = _bot_planets(world)
+	if all_planets.size() == 0:
+		return # mission accomplished
+	
 	var infected_planets = _get_planets_with_infection(world)
 	var ships = _get_ships_with_infection(world)
 	var total_infection = 0
@@ -74,7 +83,6 @@ func grow(bb, world):
 	
 	if total_infection == 0:
 		if (rng.randf() < reapperance_chance):
-			var all_planets = _bot_planets(world)
 			var random_index = rng.randi() % all_planets.size()
 			var victim_planet = all_planets[random_index]
 			victim_planet.infection_rate = 0.1
@@ -84,10 +92,9 @@ func grow(bb, world):
 
 func _bot_planets(world):
 	var bot_planets = []
-	for obj in world:
-		if obj is Bot:
-			for planet in obj.planets:
-				bot_planets.append(planet)
+	for bot in world["bots"]:
+		for planet in bot.planets:
+			bot_planets.append(planet)
 	
 	return bot_planets
 
@@ -103,44 +110,40 @@ func _get_planets_with_infection(world):
 func _get_ships_with_infection(world):
 	var ships = []
 	
-	for obj in world:
-		if obj.has_method("ships"): # If the object is a user...
-			for ship in obj.ships:
-				if ship.infection_rate > 0:
-					ships.append(ship)
+	for bot in world["bots"]:
+		for ship in bot.ships:
+			if ship.infection_rate > 0:
+				ships.append(ship)
 				
 	return ships
 		
 func _get_ships_around_planet(planet,world):
 	var ships = []
 	
-	for obj in world:
-		if obj is Bot:
-			for ship in obj.ships:
-				# TODO: Check distance
-				ships.append(ship)
+	for bot in world["bots"]:
+		for ship in bot.ships:
+			# TODO: Check distance
+			ships.append(ship)
 			
 	return ships
 	
 func _get_planets_around_ship(ship, world):
 	var planets_around_ship = []
 	
-	for obj in world:
-		if obj is Bot:
-			for planet in obj.planets:
-				# TODO: Check distance
-				planets_around_ship.append(planet)
+	for bot in world["bots"]:
+		for planet in bot.planets:
+			# TODO: Check distance
+			planets_around_ship.append(planet)
 				
 	return planets_around_ship
 	
 func _get_ships_around_ship(ship, world):
 	var ships = []
 	
-	for obj in world:
-		if obj is Bot:
-			for s in obj.ships:
-				# TODO: Check distance
-				ships.append(s)
+	for bot in world["bots"]:
+		for s in bot.ships:
+			# TODO: Check distance
+			ships.append(s)
 				
 	return ships
 	

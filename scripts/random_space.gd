@@ -74,7 +74,14 @@ func create_new_ship(type, planet):
 		ship.translate(planet.translation + Vector3(planet.radius * sin(pos_rad), planet.radius * cos(pos_rad), 0))
 		$Objects.add_child(ship)
 		return ship as Ship
-
+		
+func create_big_rocket(planet):
+	var rocket = big_rocket.instance()
+	var pos_rad = rng.randf_range(-PI, PI)
+	rocket.translate(planet.translation + Vector3(planet.radius * sin(pos_rad), planet.radius * cos(pos_rad), 0))
+	$Objects.add_child(rocket)
+	return rocket as Rocket
+	
 func create_random_planet(scene):
 	var planet = create_random_object(scene)
 	planet.axis_angle = rng.randf_range(-30, 30)
