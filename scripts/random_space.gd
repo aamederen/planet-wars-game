@@ -83,10 +83,26 @@ func create_big_rocket(planet):
 	return rocket as Rocket
 	
 func create_random_planet(scene):
-	var planet = create_random_object(scene)
+	var pos = find_pos_for_planet()
+	var planet = create_random_object(scene, pos)
 	planet.axis_angle = rng.randf_range(-30, 30)
 	planet.rotation_speed = rng.randf_range(0.02, 0.2)
 	return planet
+	
+func find_pos_for_planet():
+	while (true):
+		var candidate = random_vec3()
+		var violated = false
+		
+		for o in $Objects.get_children():
+			var distance_sq = o.translation.distance_squared_to(candidate)
+			if distance_sq < 2000:
+				violated = true
+				break
+		
+		if violated:
+			continue	
+		return candidate
 	
 func create_random_fast_ship():
 	var ship = create_random_object(fast_ship)
@@ -116,9 +132,9 @@ func create_random_big_rocket():
 	ship.deceleration = rng.randf_range(20, 40)
 	ship.destination = random_vec3()
 	
-func create_random_object(scene):
+func create_random_object(scene, loc=random_vec3()):
 	var node = scene.instance()
-	node.translate(random_vec3())
+	node.translate(loc)
 	$Objects.add_child(node)
 	return node
 
