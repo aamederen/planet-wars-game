@@ -87,8 +87,10 @@ func grow(bb, world):
 			var victim_planet = all_planets[random_index]
 			victim_planet.infection_rate = 0.1
 			_log("INFECTED PLANET " + str(victim_planet))
-			
-	_log("Ships: %d, Infected Planets: %d, total: %s" % [ships.size(), infected_planets.size(), total_infection])
+	
+	var msg = "Ships: %d, Infected Planets: %d, total: %s" % [ships.size(), infected_planets.size(), total_infection]
+	bb.ui.set_player_info("The Enemy", msg)
+	_log(msg)
 
 func _bot_planets(world):
 	var bot_planets = []

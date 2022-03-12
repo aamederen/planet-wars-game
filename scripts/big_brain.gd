@@ -14,6 +14,7 @@ var aitimer:Timer = Timer.new()
 var turntimer:Timer = Timer.new()
 var next_money_turns_left = 5
 var processes = []
+var ui
 
 func _ready():
 	aitimer.set_autostart(true)
@@ -29,6 +30,8 @@ func _ready():
 	add_child(turntimer)
 	
 	rng.randomize()
+	
+	ui = $"../UI"
 	
 func _physics_process(delta):
 	# TODO: handle collisions
@@ -162,6 +165,7 @@ func complete_process(process):
 		ship.owner_player = bot
 		ship.set_infection(0)
 		bot.add_ship(ship)
+		ui.add_event("A new ship is created for " + bot.get_player_name())
 	elif process["type"] == "build_rocket":
 		var from_planet = process["from_planet"]
 		var to_planet = process["to_planet"]
@@ -169,6 +173,7 @@ func complete_process(process):
 		var rocket = get_owner().create_big_rocket(from_planet)
 		rocket.set_mission(bot, to_planet)
 		rockets.append(rocket)
+		ui.add_event("A new rocket is sent by " + bot.get_player_name())
 
 func register_bot(bot:Bot):
 	bots.append(bot)

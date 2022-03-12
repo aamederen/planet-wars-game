@@ -21,7 +21,7 @@ func remove_money(mny:int):
 	money -= mny
 	
 func summarize():
-	_log("Money: %d, planets: %d, ships: %d" % [self.money, self.planets.size(), self.ships.size()])
+	return "Money: %d, planets: %d, ships: %d" % [self.money, self.planets.size(), self.ships.size()]
 	
 func add_ship(ship):
 	ships.append(ship)
@@ -99,7 +99,9 @@ func think_and_play(bb, world):
 				bb.create_rocket(self, "attack", my_closest_planet, enemy_planet)
 				break
 
-	summarize()
+	var msg = summarize()
+	_log(msg)
+	bb.ui.set_player_info(get_player_name(), msg)
 
 func closest_planet_to(target:Vector3):
 	var min_dist = INF
