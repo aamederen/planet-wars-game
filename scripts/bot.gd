@@ -32,6 +32,7 @@ func remove_ship(ship):
 func add_planet(planet):
 	planet.set_title(player_name)
 	planet.set_infection(0)
+	planet.set_halo_color(color)
 	planets.append(planet)
 
 func remove_planet(planet):
