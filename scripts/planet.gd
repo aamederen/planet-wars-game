@@ -28,3 +28,14 @@ func set_title(text):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func _on_Area_mouse_entered():
+	$Halo.visible = true
+	print("MERABAAA")
+
+func _on_Area_mouse_exited():
+	$Halo.visible = false
+	print("BAYBAY")
+
+func _on_Area_input_event(camera, event, position, normal, shape_idx):
+	print("BI EVENT")
