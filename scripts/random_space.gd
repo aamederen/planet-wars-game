@@ -1,6 +1,9 @@
 extends "res://scripts/space.gd"
 
 export var bot_count:int = 3
+export var min_planet_per_bot:int = 2
+export var max_planet_per_bot:int = 4
+export var starting_money:int = 500
 
 var green_planet = preload("res://scenes/objects/green_planet.tscn")
 var yellow_planet = preload("res://scenes/objects/yellow_planet.tscn")
@@ -30,8 +33,7 @@ func generate_space():
 	bb = $Brain
 		
 	for i in bot_count:
-		var planet_count = rng.randi_range(1, 4)
-		var starting_money = rng.randi_range(300, 600)
+		var planet_count = rng.randi_range(min_planet_per_bot, max_planet_per_bot)
 		
 		var bot = Bot.new("bot %d"%i, starting_money, Color(randf(), randf(), randf()))
 		

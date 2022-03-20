@@ -146,7 +146,7 @@ func assign_task(task):
 		var target_planet := task["target"] as Planet
 		var source_planet := task["source"] as Planet
 		
-		task["value"] = target_planet.translation.distance_squared_to(source_planet.translation)
+		task["value"] = target_planet.translation.distance_to(source_planet.translation)
 		
 		if (ship.arrived_at(source_planet)):
 			task["state"] = "going_to_target"

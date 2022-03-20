@@ -1,7 +1,7 @@
 extends Spatial
 
 export var cameraSpeed = 0.5
-export var cameraBounds = [Vector3(-20, -20, 10), Vector3(20,20,50)]
+export var cameraBounds = [Vector3(-200, -200, 10), Vector3(200,200,100)]
 
 
 func _ready():
