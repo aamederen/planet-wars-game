@@ -31,10 +31,14 @@ func set_title(text):
 #	pass
 
 func set_halo_color(c):
-	self.halo_color = Color(c.r, c.g, c.b, 0.1)
-	$Halo.visible = true
-	$Halo.material = $Halo.material.duplicate() # In order to make sure that color changes only apply to this planet
-	$Halo.material.albedo_color = self.halo_color
+	if c == null:
+		self.halo_color = null
+		$Halo.visible = false
+	else:
+		self.halo_color = Color(c.r, c.g, c.b, 0.1)
+		$Halo.visible = true
+		$Halo.material = $Halo.material.duplicate() # In order to make sure that color changes only apply to this planet
+		$Halo.material.albedo_color = self.halo_color
 
 func _on_Area_mouse_entered():
 	$Halo.visible = true

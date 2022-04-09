@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-export var max_event_lines = 20
+export var max_event_lines = 15
 
 var logs = []
 var player_info = {}

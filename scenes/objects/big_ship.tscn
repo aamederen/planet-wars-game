@@ -15,7 +15,7 @@ radius = 4.0
 
 [sub_resource type="OpenSimplexNoise" id=8]
 
-[sub_resource type="NoiseTexture" id=6]
+[sub_resource type="NoiseTexture" id=10]
 seamless = true
 noise = SubResource( 8 )
 
@@ -23,7 +23,7 @@ noise = SubResource( 8 )
 flags_transparent = true
 flags_unshaded = true
 albedo_color = Color( 0.501961, 0.603922, 1, 1 )
-albedo_texture = SubResource( 6 )
+albedo_texture = SubResource( 10 )
 
 [node name="Ship" type="KinematicBody"]
 script = ExtResource( 1 )
