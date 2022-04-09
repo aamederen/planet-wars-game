@@ -25,6 +25,7 @@ func summarize():
 	
 func add_ship(ship):
 	ships.append(ship)
+	ship.set_halo_color(color)
 	
 func remove_ship(ship):
 	ships.remove(ships.find(ship))
@@ -37,6 +38,7 @@ func add_planet(planet):
 
 func remove_planet(planet):
 	planet.set_title("")
+	planet.set_halo_color(null)
 	planets.remove(planets.find(planet))
 	
 	# TODO: Assign ships to another planet

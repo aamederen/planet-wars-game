@@ -48,26 +48,6 @@ func generate_space():
 	bb.register_gaia(create_random_planet(green_planet))
 	
 	bb.register_gaia(create_random_planet(yellow_planet))
-	
-	# TODO: Generate background flying objects
-#
-#	create_random_fast_ship()
-#	create_random_fast_ship()
-#	create_random_fast_ship()
-#	create_random_fast_ship()
-#
-#	create_random_big_ship()
-#	create_random_big_ship()
-#	create_random_big_ship()
-#
-#	create_random_fast_rocket()
-#	create_random_fast_rocket()
-#	create_random_fast_rocket()
-#	create_random_fast_rocket()
-#	create_random_fast_rocket()
-#
-#	create_random_big_rocket()
-#	create_random_big_rocket()
 
 func create_new_ship(type, planet):
 	if type == "trading":

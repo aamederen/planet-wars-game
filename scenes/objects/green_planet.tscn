@@ -25,7 +25,7 @@ font_data = ExtResource( 3 )
 
 [sub_resource type="OpenSimplexNoise" id=5]
 
-[sub_resource type="NoiseTexture" id=6]
+[sub_resource type="NoiseTexture" id=9]
 seamless = true
 noise = SubResource( 5 )
 
@@ -33,7 +33,7 @@ noise = SubResource( 5 )
 flags_transparent = true
 flags_unshaded = true
 albedo_color = Color( 0.501961, 0.603922, 1, 1 )
-albedo_texture = SubResource( 6 )
+albedo_texture = SubResource( 9 )
 
 [node name="Planet" type="Spatial"]
 script = ExtResource( 1 )
@@ -90,8 +90,7 @@ shape = SubResource( 3 )
 [node name="Halo" type="CSGSphere" parent="."]
 visible = false
 radius = 8.0
-radial_segments = 48
-rings = 36
+rings = 12
 material = SubResource( 4 )
 
 [connection signal="input_event" from="Area" to="." method="_on_Area_input_event"]

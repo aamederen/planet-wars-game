@@ -12,6 +12,7 @@ var cur_velocity = 0
 var task
 var infection_rate = 0
 var owner_player:Bot
+var halo_color = null
 
 func _init():
 	pass
@@ -48,3 +49,24 @@ func _physics_process(delta):
 			cur_velocity = min(max_velocity, cur_velocity + accellaration * delta)
 		else:
 			cur_velocity = max(min_velocity, cur_velocity - deceleration * delta)
+
+
+func set_halo_color(c):
+	self.halo_color = Color(c.r, c.g, c.b, 0.1)
+	$Halo.visible = true
+	$Halo.material = $Halo.material.duplicate() # In order to make sure that color changes only apply to this planet
+	$Halo.material.albedo_color = self.halo_color
+
+func _on_Area_mouse_entered():
+	$Halo.visible = true
+	$Halo.material.albedo_color = Color(0.3, 0.3, 1, 0.3)
+
+func _on_Area_mouse_exited():
+	if (halo_color == null):
+		$Halo.visible = false
+	else:
+		$Halo.material.albedo_color = self.halo_color
+
+
+func _on_Area_input_event(camera: Node, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:
+	pass # Replace with function body.
