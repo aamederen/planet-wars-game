@@ -1,23 +1,28 @@
 extends CanvasLayer
 
-export var max_event_lines = 15
+export var max_event_lines = 17
 
 var logs = []
 var player_info = {}
 var start_time
 
 func _ready():
-	start_time = OS.get_system_time_msecs()
+	start_time = OS.get_system_time_secs()
 
 func add_event(message: String) -> void:
-	logs.append({"text": message, "time": OS.get_system_time_msecs()})
+	logs.append({"text": message, "time": OS.get_system_time_secs()})
 	if logs.size() > max_event_lines:
-		logs.remove(-1)
+		logs.remove(0)
 	
 	var events_text:String = ""
 	for t in logs:
-		var elapsed = t["time"] - start_time
-		events_text = "[" + str(elapsed) + "]: " + t["text"] + "\n" + events_text
+		var elapsed_time = t["time"] - start_time
+		var elapsed_str = ""
+		if elapsed_time > 59:
+			elapsed_str = "%dm %ds" % [elapsed_time/60, elapsed_time%60]
+		else:
+			elapsed_str = "%ds" % elapsed_time
+		events_text = "[" + str(elapsed_str) + "] " + t["text"] + "\n" + events_text
 		
 	$EventsContainer/Label.text = events_text
 

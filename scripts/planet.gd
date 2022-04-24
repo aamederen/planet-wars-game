@@ -51,5 +51,6 @@ func _on_Area_mouse_exited():
 		$Halo.material.albedo_color = self.halo_color
 
 func _on_Area_input_event(camera, event, position, normal, shape_idx):
-	pass
+	if event is InputEventMouseButton and event.pressed:
+		print("Bana tikladilar")
 	# print("BI EVENT")

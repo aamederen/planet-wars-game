@@ -27,7 +27,7 @@ albedo_texture = SubResource( 10 )
 
 [node name="Ship" type="KinematicBody"]
 script = ExtResource( 1 )
-max_velocity = 200
+max_velocity = 100
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1.57509, 0, 0, 0, 1, 0, 0, 0, 1.05214, 0, 0.855713, -0.0902479 )

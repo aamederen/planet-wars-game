@@ -12,11 +12,13 @@ func _init():
 	
 func add_planet(planet:Planet):
 	planet.set_title("ENEMY")
+	planet.set_halo_color(Color("#f7d602"))
 	planets.append(planet)
 
 func remove_planet(planet):
 	planet.set_title("")
 	planets.remove(planets.find(planet))
+	planet.set_halo_color(null)
 
 func think_and_play(bb, world):
 	# here comes the AI
@@ -88,7 +90,7 @@ func grow(bb, world):
 			victim_planet.infection_rate = 0.1
 			_log("INFECTED PLANET " + str(victim_planet))
 	
-	var msg = "Ships: %d, Infected Planets: %d, total: %s" % [ships.size(), infected_planets.size(), total_infection]
+	var msg = "Ships: %d, Infected Planets: %d, total: %s" % [ships.size(), infected_planets.size() + planets.size(), total_infection]
 	bb.ui.set_player_info("The Enemy", msg)
 	_log(msg)
 
@@ -102,12 +104,12 @@ func _bot_planets(world):
 
 func _get_planets_with_infection(world):
 	var infected_planets = []
-	var all_planets = _bot_planets(world)
-	for plnt in all_planets:
+	var all_bot_planets = _bot_planets(world)
+	for plnt in all_bot_planets:
 		if plnt.infection_rate > 0:
 			infected_planets.append(plnt)
 				
-	return infected_planets
+	return infected_planets + planets
 		
 func _get_ships_with_infection(world):
 	var ships = []
