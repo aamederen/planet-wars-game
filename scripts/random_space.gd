@@ -16,6 +16,8 @@ var big_rocket = preload("res://scenes/objects/big_rocket.tscn")
 var rng = RandomNumberGenerator.new()
 var bb:BigBrain
 
+var colors = [Color.aqua, Color.webpurple, Color.webgreen, Color.tomato, Color.teal, Color.steelblue, Color.aquamarine, Color.red, Color.darkgray]
+
 func _ready():
 	print("Welcome to the random space!!")
 	generate_space()
@@ -24,6 +26,7 @@ func _physics_process(delta):
 	.handle_camera()
 
 func generate_space():
+	colors.shuffle()
 	rng.randomize()
 	var bots = []
 	
@@ -35,7 +38,7 @@ func generate_space():
 	for i in bot_count:
 		var planet_count = rng.randi_range(min_planet_per_bot, max_planet_per_bot)
 		
-		var bot = Bot.new("bot %d"%i, starting_money, Color(randf(), randf(), randf()))
+		var bot = Bot.new("bot %d"%i, starting_money, colors[i])
 		
 		for j in planet_count:
 			var planet = create_random_planet(green_planet)
