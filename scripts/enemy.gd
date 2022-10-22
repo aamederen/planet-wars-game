@@ -39,7 +39,7 @@ func think_and_play(bb, world):
 	# Jump from a ship to another planet
 	var ships = _get_ships_with_infection(world)
 	
-	# TODO: Move this to big brain
+	# TODO: Move this to big brain?
 	for ship in ships:
 		var planets_near_ship = _get_planets_around_ship(ship, world)
 		var ships_near_ship = _get_ships_around_ship(ship, world)

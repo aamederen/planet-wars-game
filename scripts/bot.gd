@@ -91,8 +91,7 @@ func think_and_play(bb, world):
 				"source": closest_planet_to(ship.translation),
 				"target": trade_target
 			})
-			
-	# TODO: If I have money, attack an enemy-occupied planet
+
 	if money > 1000  and world["enemy"].planets.size() > 0:
 		for enemy_planet in world["enemy"].planets:
 			var my_closest_planet = closest_planet_to(enemy_planet.translation)

@@ -1,10 +1,6 @@
 extends Node
 class_name BigBrain
 
-# TODO: Seperate the responsibilities of rendering vs modeling
-# Models should be managed by the big brain and 
-# the rendering should be taken care of by the Space
-
 var rng = RandomNumberGenerator.new()
 var bots = []
 var gaia = []
@@ -81,12 +77,12 @@ func _on_turntimer_timeout():
 
 func _manage_world():
 	pass
-	# TODO: Remove Control of Players in infected planets
-	for bot in bots:
-		for planet in bot.planets:
-			if planet.infection_rate == 1:
-				bot.remove_planet(planet)
-				enemy.add_planet(planet)
+	# TODO: 
+#	for bot in bots:
+#		for planet in bot.planets:
+#			if planet.infection_rate == 1:
+#				bot.remove_planet(planet)
+#				enemy.add_planet(planet)
 				
 	var rockets_to_be_removed = []
 	

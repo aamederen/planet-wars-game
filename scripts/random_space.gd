@@ -1,8 +1,9 @@
 extends "res://scripts/space.gd"
 
-export var bot_count:int = 3
-export var min_planet_per_bot:int = 2
-export var max_planet_per_bot:int = 4
+export var bot_count:int = 2
+export var min_planet_per_bot:int = 1
+export var max_planet_per_bot:int = 1
+export var empty_planets:int = 10
 export var starting_money:int = 500
 
 var green_planet = preload("res://scenes/objects/green_planet.tscn")
@@ -18,7 +19,6 @@ var bb:BigBrain
 func _ready():
 	print("Welcome to the random space!!")
 	generate_space()
-
 
 func _physics_process(delta):
 	.handle_camera()
@@ -44,8 +44,8 @@ func generate_space():
 		bb.register_bot(bot)
 	
 	# Generate GAIA
-	bb.register_gaia(create_random_planet(green_planet))
-	bb.register_gaia(create_random_planet(green_planet))
+	for i in empty_planets:
+		bb.register_gaia(create_random_planet(green_planet))	
 	
 	bb.register_gaia(create_random_planet(yellow_planet))
 
