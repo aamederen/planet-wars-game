@@ -76,13 +76,21 @@ func _on_turntimer_timeout():
 	_manage_world()
 
 func _manage_world():
-	pass
-	# TODO: 
-#	for bot in bots:
-#		for planet in bot.planets:
-#			if planet.infection_rate == 1:
-#				bot.remove_planet(planet)
-#				enemy.add_planet(planet)
+	var bot_planets = []
+	for bot in bots:
+		for planet in bot.planets:
+			bot_planets.append(planet)
+	
+	if bot_planets.size() == 0:
+		get_tree().change_scene("res://scenes/settings/gameover.tscn")
+		return
+
+	# TODO: Remove Control of Players in infected planets
+	for bot in bots:
+		for planet in bot.planets:
+			if planet.infection_rate == 1:
+				bot.remove_planet(planet)
+				enemy.add_planet(planet)
 				
 	var rockets_to_be_removed = []
 	

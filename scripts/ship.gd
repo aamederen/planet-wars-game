@@ -53,13 +53,15 @@ func _physics_process(delta):
 
 func set_halo_color(c):
 	self.halo_color = Color(c.r, c.g, c.b, 0.1)
-	$Halo.visible = true
 	$Halo.material = $Halo.material.duplicate() # In order to make sure that color changes only apply to this planet
 	$Halo.material.albedo_color = self.halo_color
+	if Globals.show_halos:
+		$Halo.visible = true
 
 func _on_Area_mouse_entered():
-	$Halo.visible = true
-	$Halo.material.albedo_color = Color(0.3, 0.3, 1, 0.3)
+	if Globals.show_halos:
+		$Halo.visible = true
+		$Halo.material.albedo_color = Color(0.3, 0.3, 1, 0.3)
 
 func _on_Area_mouse_exited():
 	if (halo_color == null):

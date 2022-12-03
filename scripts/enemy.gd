@@ -68,7 +68,7 @@ func think_and_play(bb, world):
 func grow(bb, world):
 	var all_planets = _bot_planets(world)
 	if all_planets.size() == 0:
-		return # mission accomplished
+		return
 	
 	var infected_planets = _get_planets_with_infection(world)
 	var ships = _get_ships_with_infection(world)
