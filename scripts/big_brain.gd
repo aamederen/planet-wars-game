@@ -85,12 +85,19 @@ func _manage_world():
 		get_tree().change_scene("res://scenes/settings/gameover.tscn")
 		return
 
-	# TODO: Remove Control of Players in infected planets
+	var bots_to_remove = []
+
 	for bot in bots:
 		for planet in bot.planets:
 			if planet.infection_rate == 1:
 				bot.remove_planet(planet)
 				enemy.add_planet(planet)
+				
+		if bot.planets.size() == 0:
+			bots_to_remove.append(bot)
+			
+	for bot in bots_to_remove:
+		_eliminate_player(bot)
 				
 	var rockets_to_be_removed = []
 	
@@ -135,6 +142,27 @@ func _get_world_of_bot(bot:Bot):
 	
 func _get_objects_near(t:Vector3):
 	return [] # TODO: fill
+	
+func _eliminate_player(p):
+	# Remove all ships
+	while p.ships.size() != 0:
+		explode_ship(p.ships[0])
+	
+	# Cancel the processes
+	var processes_to_be_removed = []
+	for process in processes:
+		if process["bot"] == p:
+			processes_to_be_removed.append(process)
+			
+	for process in processes_to_be_removed:
+		processes.erase(process)
+	
+	# No need to remove rockets, as the big brain manages them all
+	ui.add_event("Player is eliminated: " + p.get_player_name())
+	ui.set_player_info(p.get_player_name(), "eliminated")
+	
+	bots.erase(p)
+	p.queue_free()
 
 func explode_ship(ship:Ship):
 	var bot = ship.owner_player
