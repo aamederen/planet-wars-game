@@ -33,13 +33,12 @@ func think_and_play(bb, world):
 			if ship.infection_rate == 0:
 				if _should_infect_ship(planet, ship):
 					ship.set_infection(min(ship.infection_rate + growth_coefficient, 1))
-					# planet.set_infection(min(planet.infection_rate / 2, 0.1))
+					planet.set_infection(max(planet.infection_rate / 2, 0.1))
 					_log("INFECTED a SHIP!")
 					
 	# Jump from a ship to another planet
 	var ships = _get_ships_with_infection(world)
 	
-	# TODO: Move this to big brain?
 	for ship in ships:
 		var planets_near_ship = _get_planets_around_ship(ship, world)
 		var ships_near_ship = _get_ships_around_ship(ship, world)
@@ -126,8 +125,8 @@ func _get_ships_around_planet(planet,world):
 	
 	for bot in world["bots"]:
 		for ship in bot.ships:
-			# TODO: Check distance
-			ships.append(ship)
+			if planet.translation.distance_squared_to(ship.translation) < 1000:
+				ships.append(ship)
 			
 	return ships
 	
@@ -136,8 +135,8 @@ func _get_planets_around_ship(ship, world):
 	
 	for bot in world["bots"]:
 		for planet in bot.planets:
-			# TODO: Check distance
-			planets_around_ship.append(planet)
+			if ship.translation.distance_squared_to(planet.translation) < 1000:
+				planets_around_ship.append(planet)
 				
 	return planets_around_ship
 	
@@ -146,8 +145,8 @@ func _get_ships_around_ship(ship, world):
 	
 	for bot in world["bots"]:
 		for s in bot.ships:
-			# TODO: Check distance
-			ships.append(s)
+			if ship.translation.distance_squared_to(s.translation) < 1000:
+				ships.append(s)
 				
 	return ships
 	

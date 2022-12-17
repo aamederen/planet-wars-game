@@ -20,8 +20,10 @@ font_data = ExtResource( 5 )
 script = ExtResource( 2 )
 cameraSpeed = 1.5
 cameraBounds = [ Vector3( -100, -100, 10 ), Vector3( 100, 100, 600 ) ]
-bot_count = 5
-empty_planets = 0
+bot_count = 3
+min_planet_per_bot = 3
+max_planet_per_bot = 3
+empty_planets = 2
 starting_money = 1000
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

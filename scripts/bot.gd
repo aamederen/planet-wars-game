@@ -47,16 +47,12 @@ func remove_planet(planet):
 			if s.task["source"] == planet:
 				s.task = null
 				_log("Canceling ship task because base is destroyed")
-			elif s.task["state"] == "going_to_taget" && s.task["target"] == planet:
+			elif s.task["state"] == "going_to_target" && s.task["target"] == planet:
 				s.task = null
 				_log("Canceling ship task because the target planet is gone")
 			elif s.task["state"] == "returning_to_base" && s.task["target"] == planet:
 				s.task["value"] = 10 * s.task["value"]
 				_log("Source of goods is gone now, trade value has increased")
-	
-	# TODO: Destroy the bot if all planets are dead
-
-
 
 func think_and_play(bb, world):
 	# here comes the AI
