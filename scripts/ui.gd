@@ -11,25 +11,12 @@ func _ready():
 
 func add_event(message: String) -> void:
 	logs.append({"text": message, "time": OS.get_system_time_secs()})
-	if logs.size() > max_event_lines:
-		logs.remove(0)
 	
-	var events_text:String = ""
-	for t in logs:
-		var elapsed_time = t["time"] - start_time
-		var elapsed_str = ""
-		if elapsed_time > 59:
-			elapsed_str = "%dm %ds" % [elapsed_time/60, elapsed_time%60]
-		else:
-			elapsed_str = "%ds" % elapsed_time
-		events_text = "[" + str(elapsed_str) + "] " + t["text"] + "\n" + events_text
-		
-	$EventsContainer/Label.text = events_text
+	_update_events_text()
 
 func set_player_info(name: String, info: String) -> void:
 	player_info[name] = info
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var players_text:String = ""
 	var players_text_arr:Array = []
@@ -45,3 +32,26 @@ func _process(delta: float) -> void:
 	
 	$StatusContainer/Label.text = players_text
 	
+	_update_events_text()
+	
+func _update_events_text():
+	if logs.size() == 0:
+		return
+	
+	var now = OS.get_system_time_secs()
+	
+	while logs.size() > max_event_lines || \
+		(logs.size() > 0 && now - logs[0]["time"] > 10):
+		logs.remove(0)
+	
+	var events_text:String = ""
+	for t in logs:
+		var elapsed_time = t["time"] - start_time
+		var elapsed_str = ""
+		if elapsed_time > 59:
+			elapsed_str = "%dm %ds" % [elapsed_time/60, elapsed_time%60]
+		else:
+			elapsed_str = "%ds" % elapsed_time
+		events_text = "[" + str(elapsed_str) + "] " + t["text"] + "\n" + events_text
+		
+	$EventsContainer/Label.text = events_text
