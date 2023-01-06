@@ -3,11 +3,9 @@ extends Spatial
 export var cameraSpeed = 0.5
 export var cameraBounds = [Vector3(-200, -200, 10), Vector3(200,200,100)]
 
-
 func _ready():
 	print("Welcome to space!!")
-
-
+	
 func _physics_process(delta):
 	handle_camera()
 	
