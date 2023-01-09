@@ -2,6 +2,10 @@ extends CanvasLayer
 
 export var max_event_lines = 17
 
+var details_low = preload("res://details_low.png")
+var details_med = preload("res://details_med.png")
+var details_high = preload("res://details_high.png")
+
 var logs = []
 var player_info = {}
 var start_time
@@ -21,6 +25,7 @@ func _ready():
 	b_right = $ControlsContainer/RightButton
 	b_in = $ControlsContainer/ZoomInButton
 	b_out = $ControlsContainer/ZoomOutButton
+	update_details_button(Globals.show_halos)
 
 func add_event(message: String) -> void:
 	logs.append({"text": message, "time": OS.get_system_time_secs()})
@@ -29,6 +34,18 @@ func add_event(message: String) -> void:
 
 func set_player_info(name: String, info: String) -> void:
 	player_info[name] = info
+	
+func update_details_button(halos: bool):
+	var new_image
+	if halos:
+		new_image = "res://details_high.png"
+	else:
+		new_image = "res://details_low.png"
+	
+	var texture = $ControlsContainer/DetailsButton.texture_normal
+	var image = Image.new()
+	image.load(new_image)
+	texture.create_from_image(image)
 
 func _process(delta: float) -> void:
 	var players_text:String = ""
@@ -100,3 +117,6 @@ func _stimulate_input_actions():
 		Input.action_press("ui_zoom_out")
 	else:
 		Input.action_release("ui_zoom_out")
+		
+func _on_DetailsButton_pressed():
+	Input.action_press("ui_toggle_details")

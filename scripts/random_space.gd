@@ -24,6 +24,7 @@ func _ready():
 
 func _physics_process(delta):
 	.handle_camera()
+	handle_details()
 
 func generate_space():
 	colors.shuffle()
@@ -127,3 +128,8 @@ func random_vec3(minVec3 = cameraBounds[0], maxVec3 = cameraBounds[1]):
 	return Vector3(rng.randf_range(minVec3.x, maxVec3.x), \
 	  			   rng.randf_range(minVec3.y, maxVec3.y), \
 				   0)
+				
+func handle_details():
+	if Input.is_action_just_pressed("ui_toggle_details"):
+		Globals.show_halos = !Globals.show_halos
+		$UI.update_details_button(Globals.show_halos)
