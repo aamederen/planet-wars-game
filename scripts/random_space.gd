@@ -1,5 +1,7 @@
 extends "res://scripts/space.gd"
 
+signal ui_details_changed
+
 export var bot_count:int = 2
 export var min_planet_per_bot:int = 1
 export var max_planet_per_bot:int = 1
@@ -59,6 +61,7 @@ func create_new_ship(type, planet):
 		var pos_rad = rng.randf_range(-PI, PI)
 		ship.translate(planet.translation + Vector3(planet.radius * sin(pos_rad), planet.radius * cos(pos_rad), 0))
 		$Objects.add_child(ship)
+		connect("ui_details_changed", ship, "update_halo")
 		return ship as Ship
 		
 func create_big_rocket(planet):
@@ -66,6 +69,7 @@ func create_big_rocket(planet):
 	var pos_rad = rng.randf_range(-PI, PI)
 	rocket.translate(planet.translation + Vector3(planet.radius * sin(pos_rad), planet.radius * cos(pos_rad), 0))
 	$Objects.add_child(rocket)
+	connect("ui_details_changed", rocket, "update_halo")
 	return rocket as Rocket
 	
 func create_random_planet(scene):
@@ -73,6 +77,7 @@ func create_random_planet(scene):
 	var planet = create_random_object(scene, pos)
 	planet.axis_angle = rng.randf_range(-30, 30)
 	planet.rotation_speed = rng.randf_range(0.02, 0.2)
+	connect("ui_details_changed", planet, "update_halo")
 	return planet
 	
 func find_pos_for_planet():
@@ -133,3 +138,4 @@ func handle_details():
 	if Input.is_action_just_pressed("ui_toggle_details"):
 		Globals.show_halos = !Globals.show_halos
 		$UI.update_details_button(Globals.show_halos)
+		emit_signal("ui_details_changed")

@@ -47,25 +47,26 @@ func distance_to_destination():
 	return translation.distance_squared_to(destination)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func update_halo():
+	if self.halo_color == null:
+		$Halo.visible = false
+	else:
+		$Halo.visible = Globals.show_halos
 
 func set_halo_color(c):
 	self.halo_color = Color(c.r, c.g, c.b, 0.1)
-	$Halo.visible = true
 	$Halo.material = $Halo.material.duplicate() # In order to make sure that color changes only apply to this planet
 	$Halo.material.albedo_color = self.halo_color
+	update_halo()
 
 func _on_Area_mouse_entered():
-	$Halo.visible = true
 	$Halo.material.albedo_color = Color(0.3, 0.3, 1, 0.3)
+	$Halo.visible = true
 
 func _on_Area_mouse_exited():
-	if (halo_color == null):
-		$Halo.visible = false
-	else:
+	if (self.halo_color != null):
 		$Halo.material.albedo_color = self.halo_color
+	update_halo()
 
 
 func _on_Area_input_event(camera: Node, event: InputEvent, position: Vector3, normal: Vector3, shape_idx: int) -> void:

@@ -26,31 +26,33 @@ func set_infection(new_rate):
 
 func set_title(text):
 	$LabelSprite/Viewport/Label.text = text
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+
+func update_halo():
+	if $Halo == null:
+		return
+		
+	if self.halo_color == null:
+		$Halo.visible = false
+	else:
+		$Halo.visible = Globals.show_halos
 
 func set_halo_color(c):
 	if c == null:
 		self.halo_color = null
-		$Halo.visible = false
 	else:
 		self.halo_color = Color(c.r, c.g, c.b, 0.1)
-		if Globals.show_halos:
-			$Halo.visible = true
-			$Halo.material = $Halo.material.duplicate() # In order to make sure that color changes only apply to this planet
-			$Halo.material.albedo_color = self.halo_color
+		$Halo.material = $Halo.material.duplicate() # In order to make sure that color changes only apply to this planet
+		$Halo.material.albedo_color = self.halo_color
+	update_halo()
 
 func _on_Area_mouse_entered():
-	if Globals.show_halos:
-		$Halo.visible = true
-		$Halo.material.albedo_color = Color(0.3, 0.3, 1, 0.3)
+	$Halo.material.albedo_color = Color(0.3, 0.3, 1, 0.3)
+	$Halo.visible = true
 
 func _on_Area_mouse_exited():
-	if (halo_color == null):
-		$Halo.visible = false
-	else:
+	if (self.halo_color != null):
 		$Halo.material.albedo_color = self.halo_color
+	update_halo()
 
 func _on_Area_input_event(camera, event, position, normal, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
