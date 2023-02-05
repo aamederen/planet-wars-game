@@ -35,6 +35,7 @@ func think_and_play(bb, world):
 					ship.set_infection(min(ship.infection_rate + growth_coefficient, 1))
 					planet.set_infection(max(planet.infection_rate / 2, 0.1))
 					_log("INFECTED a SHIP!")
+					bb.play_sound("infected_ship")
 					
 	# Jump from a ship to another planet
 	var ships = _get_ships_with_infection(world)
@@ -62,6 +63,7 @@ func think_and_play(bb, world):
 				if _should_infect_planet(ship, planet):
 					planet.set_infection(growth_coefficient)
 					ship.set_infection(0)
+					bb.play_sound("infected_planet")
 					_log("INFECTION JUMPED TO A PLANET")
 
 func grow(bb, world):
@@ -87,6 +89,7 @@ func grow(bb, world):
 			var random_index = rng.randi() % all_planets.size()
 			var victim_planet = all_planets[random_index]
 			victim_planet.infection_rate = 0.1
+			bb.play_sound("infected_planet")
 			_log("INFECTED PLANET " + str(victim_planet))
 	
 	var msg = "Ships: %d, Infected Planets: %d, total: %s" % [ships.size(), infected_planets.size() + planets.size(), total_infection]

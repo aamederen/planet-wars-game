@@ -28,3 +28,6 @@ func handle_camera():
 	$Camera.translation.x = max(cameraBounds[0].x, min(cameraBounds[1].x, $Camera.translation.x))
 	$Camera.translation.y = max(cameraBounds[0].y, min(cameraBounds[1].y, $Camera.translation.y))
 	$Camera.translation.z = max(cameraBounds[0].z, min(cameraBounds[1].z, $Camera.translation.z))
+
+func play_sound(sound):
+	pass

@@ -128,6 +128,19 @@ func create_random_object(scene, loc=random_vec3()):
 	node.translate(loc)
 	$Objects.add_child(node)
 	return node
+	
+func play_sound(sound):
+	var sounds = {
+		"build_ship": $Sounds/ConstructionCompleted,
+		"build_rocket": $Sounds/ConstructionCompleted,
+		"infected_ship": $Sounds/EnemyAction,
+		"infected_planet": $Sounds/EnemyAction,
+		"enemy_owned_planet": $Sounds/EnemyAction,
+		"enemy_owned_ship": $Sounds/EnemyAction,
+		"player_eliminated": $Sounds/EnemyAction
+	}
+	
+	sounds[sound].play()
 
 func random_vec3(minVec3 = cameraBounds[0], maxVec3 = cameraBounds[1]):
 	return Vector3(rng.randf_range(minVec3.x, maxVec3.x), \

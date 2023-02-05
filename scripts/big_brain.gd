@@ -92,6 +92,7 @@ func _manage_world():
 			if planet.infection_rate == 1:
 				bot.remove_planet(planet)
 				enemy.add_planet(planet)
+				play_sound("enemy_owned_planet")
 				
 		if bot.planets.size() == 0:
 			bots_to_remove.append(bot)
@@ -157,6 +158,8 @@ func _eliminate_player(p):
 	for process in processes_to_be_removed:
 		processes.erase(process)
 	
+	play_sound("player_eliminated")
+	
 	# No need to remove rockets, as the big brain manages them all
 	ui.add_event("Player is eliminated: " + p.get_player_name())
 	ui.set_player_info(p.get_player_name(), "eliminated")
@@ -169,7 +172,11 @@ func explode_ship(ship:Ship):
 	
 	print("SHIP EXPLODED!")
 	bot.remove_ship(ship)
+	play_sound("enemy_owned_ship")
 	ship.queue_free()
+	
+func play_sound(sound):
+	get_owner().play_sound(sound)
 	
 func assign_task(task):
 	var ship = task["ship"]
@@ -198,6 +205,7 @@ func complete_process(process):
 		ship.set_infection(0)
 		bot.add_ship(ship)
 		ui.add_event("A new ship is created for " + bot.get_player_name())
+		play_sound("build_ship")
 	elif process["type"] == "build_rocket":
 		var from_planet = process["from_planet"]
 		var to_planet = process["to_planet"]
@@ -205,6 +213,7 @@ func complete_process(process):
 		var rocket = get_owner().create_big_rocket(from_planet)
 		rocket.set_mission(bot, to_planet)
 		rockets.append(rocket)
+		play_sound("build_rocket")
 		ui.add_event("A new rocket is sent by " + bot.get_player_name())
 
 func register_bot(bot:Bot):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://space_env.tres" type="Environment" id=1]
 [ext_resource path="res://scripts/random_space.gd" type="Script" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://arrow.png" type="Texture" id=6]
 [ext_resource path="res://zoomout.png" type="Texture" id=7]
 [ext_resource path="res://zoomin.png" type="Texture" id=8]
+[ext_resource path="res://332580__kelewin__dharmawave.mp3" type="AudioStream" id=9]
+[ext_resource path="res://spaceTrash3.ogg" type="AudioStream" id=10]
+[ext_resource path="res://zapThreeToneUp.ogg" type="AudioStream" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 size = 10
@@ -229,5 +232,17 @@ align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 9 )
+autoplay = true
+
+[node name="ConstructionCompleted" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 11 )
+
+[node name="EnemyAction" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 10 )
 
 [connection signal="pressed" from="UI/ControlsContainer/DetailsButton" to="UI" method="_on_DetailsButton_pressed"]
