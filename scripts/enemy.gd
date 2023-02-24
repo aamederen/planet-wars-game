@@ -11,7 +11,7 @@ func _init():
 	pass
 	
 func add_planet(planet:Planet):
-	planet.set_title("ENEMY")
+	planet.set_title("INFECTED")
 	planet.set_halo_color(Color("#f7d602"))
 	planets.append(planet)
 
@@ -93,7 +93,7 @@ func grow(bb, world):
 			_log("INFECTED PLANET " + str(victim_planet))
 	
 	var msg = "Ships: %d, Infected Planets: %d, total: %s" % [ships.size(), infected_planets.size() + planets.size(), total_infection]
-	bb.ui.set_player_info("The Enemy", msg)
+	bb.ui.set_player_info("enemy", msg)
 	_log(msg)
 
 func _bot_planets(world):
@@ -160,5 +160,5 @@ func _should_infect_planet(ship, planet):
 	return ship.infection_rate > 0.6 and rng.randf() < 0.1
 
 func _log(msg):
-	print("[enemy] ", msg)
+	print("[infection] ", msg)
 	

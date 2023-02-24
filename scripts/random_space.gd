@@ -20,6 +20,12 @@ var bb:BigBrain
 
 var colors = [Color.aqua, Color.webpurple, Color.webgreen, Color.tomato, Color.teal, Color.steelblue, Color.aquamarine, Color.red, Color.darkgray]
 
+# Some picked from https://www.fantasynamegenerators.com/planet-names.php
+var planet_names = ["Iguzuno", "Zelvegantu", "Sachides", "Chagreshan", "Seilara", "Ucury", "Phicetov", "Thadithea", "Troth 475", "Creon K38",
+				   "Callepra", "Helmaomia", "Ostrade", "Yangippe", "Uestea", "Duiphus", "Gnobamia", "Gnoleyama", "Cholla LG8", "Crypso FGLM",
+				   "Ilgaz", "Tanriyar", "Knidos", "Petrapo", "Kastumanna", "Gas Tumoni", "Fullosaf", "New Ancyra", "Erean", "Ecosh"]
+var colony_names = ["Gokboru", "Karagu", "Kizgil Boys", "Pecenek", "Daday Corp", "Sorkun Dynasty", "Bashak", "Tea Road"]
+
 func _ready():
 	print("Welcome to the random space!!")
 	generate_space()
@@ -41,7 +47,11 @@ func generate_space():
 	for i in bot_count:
 		var planet_count = rng.randi_range(min_planet_per_bot, max_planet_per_bot)
 		
-		var bot = Bot.new("bot %d"%i, starting_money, colors[i])
+		var colony_name_index = rng.randi_range(0, colony_names.size()-1)
+		var name = colony_names[colony_name_index]
+		colony_names.remove(colony_name_index)
+		
+		var bot = Bot.new(name, starting_money, colors[i])
 		
 		for j in planet_count:
 			var planet = create_random_planet(green_planet)

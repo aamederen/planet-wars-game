@@ -8,6 +8,7 @@ var details_high = preload("res://details_high.png")
 
 var logs = []
 var player_info = {}
+var enemy_info = ""
 var start_time
 
 var b_up
@@ -33,7 +34,10 @@ func add_event(message: String) -> void:
 	_update_events_text()
 
 func set_player_info(name: String, info: String) -> void:
-	player_info[name] = info
+	if name == 'enemy':
+		enemy_info = info
+	else:
+		player_info[name] = info
 	
 func update_details_button(halos: bool):
 	var new_image
@@ -59,6 +63,8 @@ func _process(delta: float) -> void:
 	
 	for t in players_text_arr:
 		players_text += t + "\n"
+		
+	players_text += "\n" + "Infection: " + enemy_info
 	
 	$StatusContainer/Label.text = players_text
 	
@@ -79,7 +85,9 @@ func _update_events_text():
 	for t in logs:
 		var elapsed_time = t["time"] - start_time
 		var elapsed_str = ""
-		if elapsed_time > 59:
+		if elapsed_time >= 60*60:
+			elapsed_str = "%dh %dm %ds" % [elapsed_time/3600, (elapsed_time%3600)/60, elapsed_time%60]
+		elif elapsed_time >= 60:
 			elapsed_str = "%dm %ds" % [elapsed_time/60, elapsed_time%60]
 		else:
 			elapsed_str = "%ds" % elapsed_time
