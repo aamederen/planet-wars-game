@@ -2,6 +2,7 @@ extends Node
 class_name BigBrain
 
 var rng = RandomNumberGenerator.new()
+var player = null
 var bots = []
 var gaia = []
 var rockets = []
@@ -221,6 +222,9 @@ func register_bot(bot:Bot):
 
 func register_gaia(object:Planet):
 	gaia.append(object)
+	
+func register_player(player):
+	self.player = player
 	
 func create_ship(bot:Bot, type:String, planet:Planet):
 	if type == "trading":

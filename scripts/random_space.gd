@@ -1,4 +1,8 @@
-extends "res://scripts/space.gd"
+extends Spatial
+
+export var cameraSpeed = 0.5
+export var cameraBounds = [Vector3(-200, -200, 10), Vector3(200,200,100)]
+export var cameraFreeForm = false
 
 signal ui_details_changed
 
@@ -14,6 +18,8 @@ var fast_ship = preload("res://scenes/objects/fast_ship.tscn")
 var big_ship = preload("res://scenes/objects/big_ship.tscn")
 var fast_rocket = preload("res://scenes/objects/fast_rocket.tscn")
 var big_rocket = preload("res://scenes/objects/big_rocket.tscn")
+var player = preload("res://scenes/objects/player.tscn")
+
 
 var rng = RandomNumberGenerator.new()
 var bb:BigBrain
@@ -31,8 +37,40 @@ func _ready():
 	generate_space()
 
 func _physics_process(delta):
-	.handle_camera()
+	handle_camera()
 	handle_details()
+	
+func handle_camera():
+	if Input.is_action_pressed("ui_left") || Input.is_action_pressed("ui_right") || Input.is_action_pressed("ui_up") || Input.is_action_pressed("ui_down"):
+		cameraFreeForm = true
+	
+	if Input.is_action_just_pressed("ui_lock"):
+		cameraFreeForm = false
+	
+	if cameraFreeForm:
+		if Input.is_action_pressed("ui_left"):
+			$Camera.translation.x -= cameraSpeed
+		elif Input.is_action_pressed("ui_right"):
+			$Camera.translation.x += cameraSpeed
+			
+		if Input.is_action_pressed("ui_up"):
+			$Camera.translation.y += cameraSpeed
+		elif Input.is_action_pressed("ui_down"):
+			$Camera.translation.y -= cameraSpeed
+			
+		if Input.is_action_pressed("ui_zoom_out"):
+			$Camera.translation.z += cameraSpeed
+		elif Input.is_action_pressed("ui_zoom_in"):
+			$Camera.translation.z -= cameraSpeed
+	else:
+		$Camera.translation.x = bb.player.translation.x
+		$Camera.translation.y = bb.player.translation.y
+		
+	$Camera.translation.x = max(cameraBounds[0].x, min(cameraBounds[1].x, $Camera.translation.x))
+	$Camera.translation.y = max(cameraBounds[0].y, min(cameraBounds[1].y, $Camera.translation.y))
+	$Camera.translation.z = max(cameraBounds[0].z, min(cameraBounds[1].z, $Camera.translation.z))
+	
+	$UI.update_lock_button(cameraFreeForm)
 
 func generate_space():
 	colors.shuffle()
@@ -64,6 +102,8 @@ func generate_space():
 		bb.register_gaia(create_random_planet(green_planet))	
 	
 	bb.register_gaia(create_random_planet(yellow_planet))
+	
+	bb.register_player(place_player())
 
 func create_new_ship(type, planet):
 	if type == "trading":
@@ -89,6 +129,13 @@ func create_random_planet(scene):
 	planet.rotation_speed = rng.randf_range(0.02, 0.2)
 	connect("ui_details_changed", planet, "update_halo")
 	return planet
+	
+func place_player():
+	var theplayer = create_random_object(player)
+	add_child(theplayer, true)
+	$Camera.translation.x = theplayer.translation.x
+	$Camera.translation.y = theplayer.translation.y
+	return theplayer
 	
 func find_pos_for_planet():
 	while (true):

@@ -37,12 +37,6 @@ func _physics_process(delta):
 	else:
 		cur_velocity = max(0, cur_velocity - deceleration * delta)
 		
-	if Input.is_action_just_pressed("ui_accept"):
-		speeding = !speeding
-		
-	if translation.distance_squared_to(destination) < 25:
-		speeding = false
-		
 func distance_to_destination():
 	return translation.distance_squared_to(destination)
 
