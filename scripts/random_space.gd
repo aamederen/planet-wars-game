@@ -182,7 +182,7 @@ func create_random_big_rocket():
 	ship.deceleration = rng.randf_range(20, 40)
 	ship.destination = random_vec3()
 	
-func create_random_object(scene, loc=random_vec3()):
+func create_random_object(scene, loc=find_pos_for_planet()):
 	var node = scene.instance()
 	node.translate(loc)
 	$Objects.add_child(node)
