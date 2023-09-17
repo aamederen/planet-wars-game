@@ -57,14 +57,14 @@ func handle_camera():
 			$Camera.translation.y += cameraSpeed
 		elif Input.is_action_pressed("ui_down"):
 			$Camera.translation.y -= cameraSpeed
-			
-		if Input.is_action_pressed("ui_zoom_out"):
-			$Camera.translation.z += cameraSpeed
-		elif Input.is_action_pressed("ui_zoom_in"):
-			$Camera.translation.z -= cameraSpeed
 	else:
 		$Camera.translation.x = bb.player.translation.x
 		$Camera.translation.y = bb.player.translation.y
+		
+	if Input.is_action_pressed("ui_zoom_out"):
+		$Camera.translation.z += cameraSpeed
+	elif Input.is_action_pressed("ui_zoom_in"):
+		$Camera.translation.z -= cameraSpeed
 		
 	$Camera.translation.x = max(cameraBounds[0].x, min(cameraBounds[1].x, $Camera.translation.x))
 	$Camera.translation.y = max(cameraBounds[0].y, min(cameraBounds[1].y, $Camera.translation.y))
@@ -104,6 +104,8 @@ func generate_space():
 	bb.register_gaia(create_random_planet(yellow_planet))
 	
 	bb.register_player(place_player())
+	
+	bb.set_bounds(cameraBounds)
 
 func create_new_ship(type, planet):
 	if type == "trading":

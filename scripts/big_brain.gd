@@ -6,6 +6,7 @@ var player = null
 var bots = []
 var gaia = []
 var rockets = []
+var bounds = null
 var enemy:Enemy = Enemy.new()
 var aitimer:Timer = Timer.new()
 var turntimer:Timer = Timer.new()
@@ -32,7 +33,9 @@ func _ready():
 	
 func _physics_process(delta):
 	# TODO: handle collisions
-	pass
+	if player && bounds:
+		player.translation.x = max(bounds[0].x, min(bounds[1].x, player.translation.x))
+		player.translation.y = max(bounds[0].y, min(bounds[1].y, player.translation.y))
 		
 func _on_aitimer_timeout(): # Allow bots to behave!
 	bots.shuffle()
@@ -225,6 +228,9 @@ func register_gaia(object:Planet):
 	
 func register_player(player):
 	self.player = player
+	
+func set_bounds(bounds):
+	self.bounds = bounds
 	
 func create_ship(bot:Bot, type:String, planet:Planet):
 	if type == "trading":
