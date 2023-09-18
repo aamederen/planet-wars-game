@@ -77,11 +77,14 @@ func generate_space():
 	rng.randomize()
 	var bots = []
 	
+	# Remove all objects, maybe useful for restarts?
 	for x in $Objects.get_children():
 		$Objects.remove_child(x)
 		
+	# (big) Brain controls the bots, disease and objects
 	bb = $Brain
 		
+	# Let's generate some bots
 	for i in bot_count:
 		var planet_count = rng.randi_range(min_planet_per_bot, max_planet_per_bot)
 		
@@ -91,13 +94,15 @@ func generate_space():
 		
 		var bot = Bot.new(name, starting_money, colors[i])
 		
+		# Let's give them some planets
 		for j in planet_count:
 			var planet = create_random_planet(green_planet)
 			bot.add_planet(planet)
 		
+		# Let the brain control the bot
 		bb.register_bot(bot)
 	
-	# Generate GAIA
+	# Generate GAIA, some random planets here and there
 	for i in empty_planets:
 		bb.register_gaia(create_random_planet(green_planet))	
 	

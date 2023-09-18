@@ -37,12 +37,14 @@ func _physics_process(delta):
 		player.translation.x = max(bounds[0].x, min(bounds[1].x, player.translation.x))
 		player.translation.y = max(bounds[0].y, min(bounds[1].y, player.translation.y))
 		
+		
 func _on_aitimer_timeout(): # Allow bots to behave!
 	bots.shuffle()
 	for bot in bots:
 		bot.think_and_play(self, _get_world_of_bot(bot))
 	
 	enemy.think_and_play(self, _get_world())
+
 
 func _on_turntimer_timeout():
 	next_money_turns_left -= 1
@@ -78,6 +80,7 @@ func _on_turntimer_timeout():
 	enemy.grow(self, _get_world())
 	
 	_manage_world()
+
 
 func _manage_world():
 	var bot_planets = []
@@ -122,7 +125,8 @@ func _manage_world():
 	for r in rockets_to_be_removed:
 		rockets.remove(rockets.find(r))
 		r.queue_free()
-	
+
+
 func _owner_of_planet(p:Planet):
 	for bot in bots:
 		for planet in bot.planets:
@@ -130,6 +134,7 @@ func _owner_of_planet(p:Planet):
 				return bot
 	
 	return null
+
 
 func _get_world():
 	randomize()
