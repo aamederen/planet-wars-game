@@ -7,6 +7,7 @@ export var cameraFreeForm = false
 signal ui_details_changed
 
 export var bot_count:int = 2
+export var small_enemy_count:int = 3
 export var min_planet_per_bot:int = 1
 export var max_planet_per_bot:int = 1
 export var empty_planets:int = 10
@@ -19,6 +20,7 @@ var big_ship = preload("res://scenes/objects/big_ship.tscn")
 var fast_rocket = preload("res://scenes/objects/fast_rocket.tscn")
 var big_rocket = preload("res://scenes/objects/big_rocket.tscn")
 var player = preload("res://scenes/objects/player.tscn")
+var small_enemy = preload("res://scenes/objects/small_enemy.tscn")
 
 
 var rng = RandomNumberGenerator.new()
@@ -105,6 +107,9 @@ func generate_space():
 	# Generate GAIA, some random planets here and there
 	for i in empty_planets:
 		bb.register_gaia(create_random_planet(green_planet))	
+		
+	for i in small_enemy_count:
+		create_random_object(small_enemy)
 	
 	bb.register_gaia(create_random_planet(yellow_planet))
 	

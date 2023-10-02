@@ -1,0 +1,11 @@
+Model Information:
+* title:	Grobbo Alien Hatchling
+* source:	https://sketchfab.com/3d-models/grobbo-alien-hatchling-b8c9be24a4884ae1913a8823591985bf
+* author:	Daniel Hudson (https://sketchfab.com/danielsamhudson)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Grobbo Alien Hatchling" (https://sketchfab.com/3d-models/grobbo-alien-hatchling-b8c9be24a4884ae1913a8823591985bf) by Daniel Hudson (https://sketchfab.com/danielsamhudson) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
