@@ -109,7 +109,7 @@ func generate_space():
 		bb.register_gaia(create_random_planet(green_planet))	
 		
 	for i in small_enemy_count:
-		create_random_object(small_enemy)
+		bb.register_small_enemy(create_random_small_enemy())
 	
 	bb.register_gaia(create_random_planet(yellow_planet))
 	
@@ -133,6 +133,11 @@ func create_big_rocket(planet):
 	$Objects.add_child(rocket)
 	connect("ui_details_changed", rocket, "update_halo")
 	return rocket as Rocket
+	
+func create_random_small_enemy():
+	var enemy = create_random_object(small_enemy)
+	enemy.rotate_y(90)
+	return enemy
 	
 func create_random_planet(scene):
 	var pos = find_pos_for_planet()

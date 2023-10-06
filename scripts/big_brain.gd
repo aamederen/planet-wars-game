@@ -6,6 +6,7 @@ var player = null
 var bots = []
 var gaia = []
 var rockets = []
+var small_enemies = []
 var bounds = null
 var enemy:Enemy = Enemy.new()
 var aitimer:Timer = Timer.new()
@@ -89,7 +90,7 @@ func _manage_world():
 			bot_planets.append(planet)
 	
 	if bot_planets.size() == 0:
-		get_tree().change_scene("res://scenes/settings/gameover.tscn")
+		game_over()
 		return
 
 	var bots_to_remove = []
@@ -234,8 +235,23 @@ func register_gaia(object:Planet):
 func register_player(player):
 	self.player = player
 	
+func register_small_enemy(enemy):
+	small_enemies.append(enemy)
+	enemy.brain = self
+	
 func set_bounds(bounds):
 	self.bounds = bounds
+	
+func enemy_saw_someone(enemy, target):
+	if target == player:
+		enemy.target_object = target
+		
+func enemy_hit_someone(enemy, target):
+	if target == player:
+		game_over()
+		
+func game_over():
+	get_tree().change_scene("res://scenes/settings/gameover.tscn")
 	
 func create_ship(bot:Bot, type:String, planet:Planet):
 	if type == "trading":
