@@ -234,6 +234,7 @@ func register_gaia(object:Planet):
 	
 func register_player(player):
 	self.player = player
+	self.player.brain = self
 	
 func register_small_enemy(enemy):
 	small_enemies.append(enemy)
@@ -249,6 +250,11 @@ func enemy_saw_someone(enemy, target):
 func enemy_hit_someone(enemy, target):
 	if target == player:
 		game_over()
+		
+func create_missile():
+	var rocket = get_owner().create_fast_rocket(player.translation)
+	rocket.rotation = player.rotation
+	
 		
 func game_over():
 	get_tree().change_scene("res://scenes/settings/gameover.tscn")

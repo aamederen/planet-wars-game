@@ -8,6 +8,7 @@
 [sub_resource type="SphereShape" id=2]
 
 [sub_resource type="SphereShape" id=3]
+radius = 1.5
 
 [node name="SmallEnemy" type="KinematicBody"]
 script = ExtResource( 2 )

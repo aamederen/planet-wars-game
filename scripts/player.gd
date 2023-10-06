@@ -5,7 +5,9 @@ var speed = 0
 var direction = Vector3(1, 0, 0)
 var acceleration = 5
 var time_to_shoot = 0
-var shoot_time_needed = 5
+var shoot_time_needed = 1
+
+var brain = null
 
 func _physics_process(delta):
 	var is_key_pressed = false
@@ -28,6 +30,7 @@ func _process(delta):
 	time_to_shoot = max(0, time_to_shoot - delta)
 	if Input.is_action_pressed("player_shoot"):
 		if time_to_shoot == 0:
+			brain.create_missile()
 			# TODO: Create a missile
 			print ("shooting a missile")
 			time_to_shoot = shoot_time_needed

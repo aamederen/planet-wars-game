@@ -183,12 +183,8 @@ func create_random_big_ship():
 	ship.deceleration = rng.randf_range(15, 80)
 	ship.destination = random_vec3()
 	
-func create_random_fast_rocket():
-	var ship = create_random_object(fast_rocket)
-	ship.max_velocity = rng.randf_range(10, 20)
-	ship.accellaration = rng.randf_range(20, 100)
-	ship.deceleration = rng.randf_range(80, 100)
-	ship.destination = random_vec3()
+func create_fast_rocket(loc):
+	return create_random_object(fast_rocket, loc)
 	
 func create_random_big_rocket():
 	var ship = create_random_object(big_rocket)
