@@ -10,7 +10,7 @@
 [sub_resource type="SphereShape" id=3]
 radius = 1.5
 
-[node name="SmallEnemy" type="KinematicBody"]
+[node name="SmallEnemy" type="KinematicBody" groups=["SmallEnemy"]]
 script = ExtResource( 2 )
 
 [node name="small_enemy_mesh_scene" parent="." instance=ExtResource( 1 )]

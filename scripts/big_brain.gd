@@ -185,6 +185,14 @@ func explode_ship(ship:Ship):
 	play_sound("enemy_owned_ship")
 	ship.queue_free()
 	
+func kill_small_enemy(enemy):
+	small_enemies.remove(small_enemies.find(enemy))
+	play_sound("enemy_owned_ship")
+	enemy.queue_free()
+	
+func destroy_fast_rocket(rocket):
+	rocket.queue_free()
+	
 func play_sound(sound):
 	get_owner().play_sound(sound)
 	
@@ -251,11 +259,16 @@ func enemy_hit_someone(enemy, target):
 	if target == player:
 		game_over()
 		
-func create_missile():
+func rocket_collided(rocket, target):
+	if target.is_in_group("SmallEnemy"):
+		kill_small_enemy(target)
+		destroy_fast_rocket(rocket)
+		
+func create_fast_rocket():
 	var rocket = get_owner().create_fast_rocket(player.translation)
+	rocket.brain = self
 	rocket.rotation = player.rotation
 	
-		
 func game_over():
 	get_tree().change_scene("res://scenes/settings/gameover.tscn")
 	

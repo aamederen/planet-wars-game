@@ -30,8 +30,7 @@ func _process(delta):
 	time_to_shoot = max(0, time_to_shoot - delta)
 	if Input.is_action_pressed("player_shoot"):
 		if time_to_shoot == 0:
-			brain.create_missile()
-			# TODO: Create a missile
+			brain.create_fast_rocket()
 			print ("shooting a missile")
 			time_to_shoot = shoot_time_needed
 			

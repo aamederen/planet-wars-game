@@ -5,7 +5,13 @@ class_name FastRocket
 export var max_velocity = 200
 export var accellaration = 40
 var cur_velocity = 0
+var brain = null
 	
 func _physics_process(delta):
-	global_translate(rotation.rotated(Vector3(0,0,1), PI/2) * cur_velocity * delta)
+	translate(Vector3(0, 0, -1) * cur_velocity * delta)
 	cur_velocity = min(max_velocity, cur_velocity + accellaration * delta)
+
+
+func _on_CollisionArea_body_entered(body: Node) -> void:
+	if brain:
+		brain.rocket_collided(self, body) # Replace with function body.

@@ -1,4 +1,5 @@
 extends KinematicBody
+class_name SmallEnemy
 
 export var max_velocity = 8
 export var min_velocity = 1
