@@ -258,6 +258,10 @@ func enemy_saw_someone(enemy, target):
 	if target == player:
 		enemy.target_object = target
 		
+func enemy_lost_someone(enemy, target):
+	if target == player:
+		enemy.target_object = null
+		
 func enemy_hit_someone(enemy, target):
 	if target == player:
 		game_over()
