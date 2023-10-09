@@ -126,6 +126,9 @@ func _manage_world():
 	for r in rockets_to_be_removed:
 		rockets.remove(rockets.find(r))
 		r.queue_free()
+		
+	if small_enemies.size() < 3:
+		register_small_enemy(get_owner().create_random_small_enemy())
 
 
 func _owner_of_planet(p:Planet):
