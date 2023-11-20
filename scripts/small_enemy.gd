@@ -13,10 +13,13 @@ var target_position = null
 var target_velocity = 0
 
 func _physics_process(delta):
+	$small_enemy_mesh_scene/AnimationPlayer.play("Moving Idle")
 	if (target_object):
+		$small_enemy_mesh_scene/AnimationPlayer.playback_speed = 1.0
 		target_position = target_object.translation	
 		target_velocity = max_velocity
 	else:
+		$small_enemy_mesh_scene/AnimationPlayer.playback_speed = 0.4
 		if !target_position || target_position.distance_squared_to(translation) < 10:
 			target_position = translation + Vector3(rand_range(-100, 100), rand_range(-100, 100), 0)
 		target_velocity = min_velocity

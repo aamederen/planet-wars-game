@@ -53,8 +53,5 @@ custom_colors/font_color_pressed = Color( 0.6, 0.6, 0.6, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "PLAY!"
 flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="pressed" from="button-title-play" to="." method="_on_buttontitleplay_pressed"]
