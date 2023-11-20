@@ -1,0 +1,190 @@
+[gd_scene load_steps=12 format=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0.372727 ), 0.0, 0.0, 0, 0, Vector2( 0.652582, 0.945454 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+curve = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.290909 ), 0.0, 0.0, 0, 0, Vector2( 0.600939, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+lifetime_randomness = 0.4
+trail_size_modifier = SubResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3( 1, 1, 1 )
+spread = 18.83
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.64
+linear_accel = 2.0
+radial_accel = 2.0
+scale_random = 0.76
+scale_curve = SubResource( 2 )
+color = Color( 0.486275, 0.737255, 0.0784314, 1 )
+
+[sub_resource type="SpatialMaterial" id=6]
+albedo_color = Color( 0.184314, 0.501961, 0.0823529, 1 )
+
+[sub_resource type="SphereMesh" id=7]
+material = SubResource( 6 )
+
+[sub_resource type="SphereShape" id=8]
+
+[sub_resource type="Shader" id=9]
+code = "/*
+	煙シェーダー by あるる（きのもと 結衣） @arlez80
+	Smoke Shader by Yui Kinomoto
+
+	MIT License
+*/
+
+shader_type spatial;
+render_mode depth_draw_opaque;
+
+// 煙の細かさ
+uniform float scale = 1.0;
+// 煙移動速度
+uniform vec3 tex_speed = vec3( 0.0, -2.2, 0.5 );
+// 煙もこもこ感
+uniform vec2 mokomoko = vec2( 0.1, 0.1 );
+
+// 煙の量
+uniform float smoke_volume : hint_range( 0.0, 2.0 ) = 0.8;
+// 穴開き具合
+uniform float smoke_aperture : hint_range( 0.0, 3.0 ) = 0.28;
+// 色
+uniform vec4 smoke_color : hint_color = vec4( 0.185, 0.185, 0.185, 1.0 );
+
+varying vec4 world_vertex;
+
+float random( vec3 pos )
+{ 
+	return fract(sin(dot(pos, vec3(12.9898,78.233,-3.532532))) * 43758.5453);
+}
+
+float value_noise( vec3 pos )
+{
+	vec3 p = floor( pos );
+	vec3 f = fract( pos );
+
+	float v000 = random( p/*+ vec3( 0.0, 0.0, 0.0 )*/ );
+	float v100 = random( p + vec3( 1.0, 0.0, 0.0 ) );
+	float v010 = random( p + vec3( 0.0, 1.0, 0.0 ) );
+	float v110 = random( p + vec3( 1.0, 1.0, 0.0 ) );
+	float v001 = random( p + vec3( 0.0, 0.0, 1.0 ) );
+	float v101 = random( p + vec3( 1.0, 0.0, 1.0 ) );
+	float v011 = random( p + vec3( 0.0, 1.0, 1.0 ) );
+	float v111 = random( p + vec3( 1.0, 1.0, 1.0 ) );
+
+	vec3 u = f * f * ( 3.0 - 2.0 * f );
+
+	return mix(
+		mix(
+			mix( v000, v100, u.x )
+		,	mix( v010, v110, u.x )
+		,	u.y
+		)
+	,	mix(
+			mix( v001, v101, u.x )
+		,	mix( v011, v111, u.x )
+		,	u.y
+		)
+	,	u.z
+	);
+}
+
+float noise_tex( vec3 p )
+{
+	return (
+		value_noise( p * 0.984864 ) * 0.5
+	+	value_noise( p * 2.543 ) * 0.25
+	+	value_noise( p * 9.543543 ) * 0.125
+	+	value_noise( p * 21.65436 ) * 0.0625
+	+	value_noise( p * 42.0 ) * 0.03125
+	+	value_noise( p * 87.135148 ) * 0.015625
+	+	value_noise( p * 340.66534654 ) * 0.0078125
+	);
+}
+
+void vertex( )
+{
+	world_vertex = WORLD_MATRIX * vec4( VERTEX * scale, 1.0 );
+}
+
+void fragment( )
+{
+	float p[9];
+
+	for( int y = 0; y < 3; y ++ ) {
+		for( int x = 0; x < 3; x ++ ) {
+			p[y*3 + x] = noise_tex( world_vertex.xyz + tex_speed * TIME + vec3( mokomoko * vec2( float(x - 1), float(y - 1) ), 0.0 ) );
+		}
+	}
+
+	float smoke = clamp( sin( UV.x * 3.1415926535 ) * smoke_volume, 0.0, 1.0 );
+	float smoke_noise = smoke * ( ( ( smoke + smoke_aperture ) * p[4] - smoke_aperture ) * 75.0 ) * UV.y;
+
+	vec2 sobel_filter = clamp(
+		vec2(
+			(
+				p[0] * -1.0
+			+	p[3] * -2.0
+			+	p[6] * -1.0
+			+	p[2] * 1.0
+			+	p[5] * 2.0
+			+	p[8] * 1.0
+			)
+		,	(
+				p[0] * -1.0
+			+	p[1] * -2.0
+			+	p[2] * -1.0
+			+	p[6] * 1.0
+			+	p[7] * 2.0
+			+	p[8] * 1.0
+			)
+		)
+	,	vec2( -1.0, -1.0 )
+	,	vec2( 1.0, 1.0 )
+	) * 0.5;
+
+	NORMALMAP = normalize( vec3( sobel_filter.x + 0.5, -sobel_filter.y + 0.5, 1.0 ) );
+	ALBEDO = smoke_color.rgb;
+	ALPHA = clamp( smoke_noise, 0.0, 1.0 );
+}
+"
+
+[sub_resource type="ShaderMaterial" id=10]
+shader = SubResource( 9 )
+shader_param/scale = 5.0
+shader_param/tex_speed = Vector3( 1, -2.2, 3 )
+shader_param/mokomoko = Vector2( 0.1, 0.1 )
+shader_param/smoke_volume = 1.361
+shader_param/smoke_aperture = 0.871
+shader_param/smoke_color = Color( 0.294118, 0.494118, 0.027451, 1 )
+
+[sub_resource type="SphereMesh" id=11]
+material = SubResource( 10 )
+
+[node name="BigEnemy" type="KinematicBody"]
+
+[node name="Particles" type="Particles" parent="."]
+lifetime = 0.56
+process_material = SubResource( 5 )
+draw_pass_1 = SubResource( 7 )
+
+[node name="OmniLight" type="OmniLight" parent="."]
+light_color = Color( 0.517647, 0.87451, 0.0470588, 1 )
+light_energy = 2.818
+light_indirect_energy = 2.091
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 8 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 11 )
