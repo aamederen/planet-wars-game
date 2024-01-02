@@ -136,7 +136,6 @@ func create_big_rocket(planet):
 	
 func create_random_small_enemy():
 	var enemy = create_random_object(small_enemy)
-	enemy.rotate_y(90)
 	return enemy
 	
 func create_random_planet(scene):

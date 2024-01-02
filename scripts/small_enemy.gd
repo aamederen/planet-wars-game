@@ -24,8 +24,8 @@ func _physics_process(delta):
 			target_position = translation + Vector3(rand_range(-100, 100), rand_range(-100, 100), 0)
 		target_velocity = min_velocity
 	
-	transform = transform.looking_at(target_position, Vector3(0,1,0))
 	var direction = translation.direction_to(target_position)
+	rotation.z = direction.signed_angle_to(Vector3(1,0,0), Vector3(0,0,-1))
 	
 	if cur_velocity < target_velocity:
 		cur_velocity = min(target_velocity, cur_velocity + accellaration * delta)

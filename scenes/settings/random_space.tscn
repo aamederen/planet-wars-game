@@ -92,11 +92,7 @@ margin_right = -10.0
 margin_bottom = -10.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 1 )
-text = "Events will show up here"
 align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ControlsContainer" type="Control" parent="UI"]
 anchor_left = 1.0
@@ -230,7 +226,6 @@ margin_right = -10.0
 margin_bottom = -10.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 2 )
-text = "Hello, we are here"
 align = 2
 __meta__ = {
 "_edit_use_anchors_": false

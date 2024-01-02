@@ -271,10 +271,12 @@ func rocket_collided(rocket, target):
 		kill_small_enemy(target)
 		destroy_fast_rocket(rocket)
 		
-func create_fast_rocket():
+func create_fast_rocket(target):
 	var rocket = get_owner().create_fast_rocket(player.translation)
 	rocket.brain = self
-	rocket.rotation = player.rotation
+	
+	var direction = rocket.translation.direction_to(target.translation)
+	rocket.rotation.z = direction.signed_angle_to(Vector3(1,0,0), Vector3(0, 0, -1))
 	
 func game_over():
 	get_tree().change_scene("res://scenes/settings/gameover.tscn")

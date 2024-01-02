@@ -8,9 +8,8 @@ var cur_velocity = 0
 var brain = null
 	
 func _physics_process(delta):
-	translate(Vector3(0, 0, -1) * cur_velocity * delta)
+	translate(Vector3(1, 0, 0) * cur_velocity * delta)
 	cur_velocity = min(max_velocity, cur_velocity + accellaration * delta)
-
 
 func _on_CollisionArea_body_entered(body: Node) -> void:
 	if brain:
