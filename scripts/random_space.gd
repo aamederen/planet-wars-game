@@ -72,6 +72,9 @@ func handle_camera():
 	$Camera.translation.y = max(cameraBounds[0].y, min(cameraBounds[1].y, $Camera.translation.y))
 	$Camera.translation.z = max(cameraBounds[0].z, min(cameraBounds[1].z, $Camera.translation.z))
 	
+	# Compensate the camera angle
+	$Camera.translation.y -= tan($Camera.rotation.x) * $Camera.translation.z
+	
 	$UI.update_lock_button(cameraFreeForm)
 
 func generate_space():
@@ -160,7 +163,7 @@ func find_pos_for_planet():
 		
 		for o in $Objects.get_children():
 			var distance_sq = o.translation.distance_squared_to(candidate)
-			if distance_sq < 2000:
+			if distance_sq < 20000:
 				violated = true
 				break
 		

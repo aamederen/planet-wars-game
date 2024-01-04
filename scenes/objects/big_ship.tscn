@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/ship.gd" type="Script" id=1]
 [ext_resource path="res://models/craft_cargoB.obj" type="ArrayMesh" id=2]
@@ -9,6 +9,13 @@ height = 4.0
 
 [sub_resource type="ViewportTexture" id=2]
 viewport_path = NodePath("Label/Viewport")
+
+[sub_resource type="DynamicFontData" id=11]
+font_path = "res://fonts/Boxfont Round.ttf"
+
+[sub_resource type="DynamicFont" id=12]
+size = 64
+font_data = SubResource( 11 )
 
 [sub_resource type="SphereShape" id=7]
 radius = 4.0
@@ -30,24 +37,20 @@ script = ExtResource( 1 )
 max_velocity = 100
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1.57509, 0, 0, 0, 1, 0, 0, 0, 1.05214, 0, 0.855713, -0.0902479 )
+transform = Transform( -6.88494e-08, -1, 0, 1.57509, -4.37114e-08, 0, 0, 0, 1.05214, 0.6489, -0.160883, -0.0902479 )
 shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( -2, 0, -7.78829e-07, 0, 2, 0, 7.78829e-07, 0, -2, 0, 0, 0 )
+transform = Transform( 8.74228e-08, 2, 1.74846e-07, 2, -8.74228e-08, 0, 7.64274e-15, 1.74846e-07, -2, 0, 0, 0 )
 mesh = ExtResource( 2 )
-material/0 = null
-material/1 = null
-material/2 = null
-material/3 = null
 
 [node name="Label" type="Sprite3D" parent="."]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 1, 0, -2, 0 )
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 1, 0, -2, 0 )
 billboard = 1
 texture = SubResource( 2 )
 
 [node name="Viewport" type="Viewport" parent="Label"]
-size = Vector2( 83, 14 )
+size = Vector2( 407, 83 )
 transparent_bg = true
 render_target_v_flip = true
 script = ExtResource( 3 )
@@ -55,6 +58,7 @@ script = ExtResource( 3 )
 [node name="Label" type="Label" parent="Label/Viewport"]
 margin_right = 40.0
 margin_bottom = 14.0
+custom_fonts/font = SubResource( 12 )
 text = "I am a ship!!!"
 
 [node name="Area" type="Area" parent="."]
