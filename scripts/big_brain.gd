@@ -246,6 +246,7 @@ func register_gaia(object:Planet):
 func register_player(player):
 	self.player = player
 	self.player.brain = self
+	Globals.player = player
 	
 func register_small_enemy(enemy):
 	small_enemies.append(enemy)

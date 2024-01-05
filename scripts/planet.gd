@@ -30,19 +30,22 @@ func set_title(text):
 func update_halo():
 	if $Halo == null:
 		return
-		
-	if self.halo_color == null:
-		$Halo.visible = false
-	else:
-		$Halo.visible = Globals.show_halos
+
+	$Halo.visible = Globals.show_halos && self.halo_color != null
 
 func set_halo_color(c):
 	if c == null:
 		self.halo_color = null
+		$MinimapIndicator.mesh = $MinimapIndicator.mesh.duplicate()
+		$MinimapIndicator.mesh.material = $MinimapIndicator.mesh.material.duplicate()
+		$MinimapIndicator.mesh.material.albedo_color = Color(0.3, 0.3, 1)
 	else:
 		self.halo_color = Color(c.r, c.g, c.b, 0.1)
-		$Halo.material = $Halo.material.duplicate() # In order to make sure that color changes only apply to this planet
+		$Halo.material = $Halo.material.duplicate() # In order to make sure that color changes apply only to this planet
 		$Halo.material.albedo_color = self.halo_color
+		$MinimapIndicator.mesh = $MinimapIndicator.mesh.duplicate()
+		$MinimapIndicator.mesh.material = $MinimapIndicator.mesh.material.duplicate()
+		$MinimapIndicator.mesh.material.albedo_color = self.halo_color
 	update_halo()
 
 func _on_Area_mouse_entered():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://space_env.tres" type="Environment" id=1]
 [ext_resource path="res://scripts/random_space.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://spaceTrash3.ogg" type="AudioStream" id=10]
 [ext_resource path="res://zapThreeToneUp.ogg" type="AudioStream" id=11]
 [ext_resource path="res://crossair.png" type="Texture" id=12]
+[ext_resource path="res://scenes/settings/MinimapCamera.gd" type="Script" id=13]
 
 [sub_resource type="DynamicFont" id=1]
 size = 10
@@ -24,6 +25,27 @@ font_data = ExtResource( 5 )
 size = 10
 use_filter = true
 font_data = ExtResource( 5 )
+
+[sub_resource type="Shader" id=4]
+code = "shader_type canvas_item;
+
+uniform float radius;
+
+void fragment() {
+	vec2 center = vec2(0.5, 0.5);
+	vec2 local_coords = (UV - center);
+	float distance = length(local_coords);
+	
+	float circle_radius = radius / float(2);
+	
+	if (distance > circle_radius) {
+		discard;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
+shader_param/radius = 0.9
 
 [node name="RandomSpace" type="Spatial"]
 script = ExtResource( 2 )
@@ -41,8 +63,10 @@ environment = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 80 )
+cull_mask = 1
 current = true
 fov = 45.0
+size = 500.0
 far = 2000.0
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
@@ -72,9 +96,6 @@ anchor_bottom = 0.8
 margin_top = 40.0
 margin_right = -40.0
 margin_bottom = -40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="UI/EventsContainer"]
 anchor_right = 1.0
@@ -204,7 +225,7 @@ texture_normal = ExtResource( 12 )
 [node name="StatusContainer" type="Control" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 0.2
-margin_left = 40.0
+margin_left = 357.0
 margin_top = 40.0
 margin_right = -40.0
 rect_scale = Vector2( 1.00096, 0.980897 )
@@ -231,6 +252,39 @@ align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="MinimapContainer" type="ViewportContainer" parent="UI"]
+material = SubResource( 5 )
+margin_left = 30.0
+margin_top = 30.0
+margin_right = 230.0
+margin_bottom = 230.0
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="UI/MinimapContainer"]
+size = Vector2( 200, 200 )
+size_override_stretch = true
+handle_input_locally = false
+hdr = false
+render_target_update_mode = 3
+gui_disable_input = true
+
+[node name="Camera" type="Camera" parent="UI/MinimapContainer/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 81.9989 )
+cull_mask = 2
+projection = 1
+current = true
+size = 1500.0
+near = 1.04
+far = 80.0
+script = ExtResource( 13 )
+
+[node name="ColorRect" type="ColorRect" parent="UI/MinimapContainer"]
+visible = false
+use_parent_material = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.298039, 0.298039, 0.564706, 0.509804 )
 
 [node name="Sounds" type="Node" parent="."]
 
