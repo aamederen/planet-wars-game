@@ -38,5 +38,5 @@ func _process(delta):
 		time_to_shoot = shoot_time_needed
 
 func _on_FireRangeArea_body_entered(body: Node) -> void:
-	if body.is_in_group("SmallEnemy") && !target:
+	if body.is_in_group("Monster") && !target:
 		target = body

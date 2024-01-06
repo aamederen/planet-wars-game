@@ -6,7 +6,7 @@ var player = null
 var bots = []
 var gaia = []
 var rockets = []
-var small_enemies = []
+var monsters = []
 var bounds = null
 var enemy:Enemy = Enemy.new()
 var aitimer:Timer = Timer.new()
@@ -127,8 +127,7 @@ func _manage_world():
 		rockets.remove(rockets.find(r))
 		r.queue_free()
 		
-	if small_enemies.size() < 3:
-		register_small_enemy(get_owner().create_random_small_enemy())
+	ui.set_player_info("Monsters", str(monsters.size()))
 
 
 func _owner_of_planet(p:Planet):
@@ -187,11 +186,15 @@ func explode_ship(ship:Ship):
 	bot.remove_ship(ship)
 	play_sound("enemy_owned_ship")
 	ship.queue_free()
-	
-func kill_small_enemy(enemy):
-	small_enemies.remove(small_enemies.find(enemy))
-	play_sound("enemy_owned_ship")
-	enemy.queue_free()
+
+func create_monster(planet):
+	var monster = get_owner().create_monster(planet)
+	register_monster(monster)
+
+func kill_monster(monster):
+	monsters.remove(monsters.find(monster))
+	play_sound("monster_dead")
+	monster.queue_free()
 	
 func destroy_fast_rocket(rocket):
 	rocket.queue_free()
@@ -248,9 +251,9 @@ func register_player(player):
 	self.player.brain = self
 	Globals.player = player
 	
-func register_small_enemy(enemy):
-	small_enemies.append(enemy)
-	enemy.brain = self
+func register_monster(monster):
+	monsters.append(monster)
+	monster.brain = self
 	
 func set_bounds(bounds):
 	self.bounds = bounds
@@ -268,8 +271,8 @@ func enemy_hit_someone(enemy, target):
 		game_over()
 		
 func rocket_collided(rocket, target):
-	if target.is_in_group("SmallEnemy"):
-		kill_small_enemy(target)
+	if target.is_in_group("Monster"):
+		kill_monster(target)
 		destroy_fast_rocket(rocket)
 		
 func create_fast_rocket(target):

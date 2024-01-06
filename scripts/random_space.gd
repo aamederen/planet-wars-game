@@ -7,7 +7,7 @@ export var cameraFreeForm = false
 signal ui_details_changed
 
 export var bot_count:int = 2
-export var small_enemy_count:int = 3
+export var monster_count:int = 3
 export var min_planet_per_bot:int = 1
 export var max_planet_per_bot:int = 1
 export var empty_planets:int = 10
@@ -20,7 +20,7 @@ var big_ship = preload("res://scenes/objects/big_ship.tscn")
 var fast_rocket = preload("res://scenes/objects/fast_rocket.tscn")
 var big_rocket = preload("res://scenes/objects/big_rocket.tscn")
 var player = preload("res://scenes/objects/player.tscn")
-var small_enemy = preload("res://scenes/objects/small_enemy.tscn")
+var monster = preload("res://scenes/objects/monster.tscn")
 
 
 var rng = RandomNumberGenerator.new()
@@ -111,8 +111,8 @@ func generate_space():
 	for i in empty_planets:
 		bb.register_gaia(create_random_planet(green_planet))	
 		
-	for i in small_enemy_count:
-		bb.register_small_enemy(create_random_small_enemy())
+	for i in monster_count:
+		bb.register_monster(create_random_monster())
 	
 	bb.register_gaia(create_random_planet(yellow_planet))
 	
@@ -120,11 +120,14 @@ func generate_space():
 	
 	bb.set_bounds(cameraBounds)
 
+func _random_pos_around_planet(planet):
+	var pos_rad = rng.randf_range(-PI, PI)
+	return planet.translation + Vector3(planet.radius * sin(pos_rad), planet.radius * cos(pos_rad), 0)
+
 func create_new_ship(type, planet):
 	if type == "trading":
 		var ship = big_ship.instance()
-		var pos_rad = rng.randf_range(-PI, PI)
-		ship.translate(planet.translation + Vector3(planet.radius * sin(pos_rad), planet.radius * cos(pos_rad), 0))
+		ship.translate(_random_pos_around_planet(planet))
 		$Objects.add_child(ship)
 		connect("ui_details_changed", ship, "update_halo")
 		return ship as Ship
@@ -137,9 +140,14 @@ func create_big_rocket(planet):
 	connect("ui_details_changed", rocket, "update_halo")
 	return rocket as Rocket
 	
-func create_random_small_enemy():
-	var enemy = create_random_object(small_enemy)
-	return enemy
+func create_random_monster():
+	var m = create_random_object(monster)
+	return m
+	
+func create_monster(planet):
+	var m = create_random_monster()
+	m.translate(_random_pos_around_planet(planet))
+	return m
 	
 func create_random_planet(scene):
 	var pos = find_pos_for_planet()
@@ -207,9 +215,11 @@ func play_sound(sound):
 		"build_rocket": $Sounds/ConstructionCompleted,
 		"infected_ship": $Sounds/EnemyAction,
 		"infected_planet": $Sounds/EnemyAction,
+		"created_monster": $Sounds/EnemyAction,
 		"enemy_owned_planet": $Sounds/EnemyAction,
 		"enemy_owned_ship": $Sounds/EnemyAction,
-		"player_eliminated": $Sounds/EnemyAction
+		"player_eliminated": $Sounds/EnemyAction,
+		"monster_dead": $Sounds/ConstructionCompleted
 	}
 	
 	sounds[sound].play()

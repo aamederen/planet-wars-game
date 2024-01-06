@@ -28,14 +28,18 @@ func think_and_play(bb, world):
 	var infected_planets = _get_planets_with_infection(world)
 	
 	for planet in infected_planets:
+		if _should_create_monster(planet):
+			_log("CREATING MONSTER")
+			bb.create_monster(planet)
+			planet.set_infection(max(planet.infection_rate / 5, 0.1))
+		
 		var ships_near_planet = _get_ships_around_planet(planet, world)
 		for ship in ships_near_planet:
-			if ship.infection_rate == 0:
-				if _should_infect_ship(planet, ship):
-					ship.set_infection(min(ship.infection_rate + growth_coefficient, 1))
-					planet.set_infection(max(planet.infection_rate / 2, 0.1))
-					_log("INFECTED a SHIP!")
-					bb.play_sound("infected_ship")
+			if _should_infect_ship(planet, ship):
+				ship.set_infection(min(ship.infection_rate + growth_coefficient, 1))
+				planet.set_infection(max(planet.infection_rate / 2, 0.1))
+				_log("INFECTED a SHIP!")
+				bb.play_sound("infected_ship")
 					
 	# Jump from a ship to another planet
 	var ships = _get_ships_with_infection(world)
@@ -154,10 +158,13 @@ func _get_ships_around_ship(ship, world):
 	return ships
 	
 func _should_infect_ship(planet, ship):
-	return planet.infection_rate > 0.8 and ship.infection_rate < 0.2 and rng.randf() < 0.3
+	return planet.infection_rate > 0.8 and ship.infection_rate == 0 and rng.randf() < 0.3
 	
 func _should_infect_planet(ship, planet):
 	return ship.infection_rate > 0.6 and rng.randf() < 0.1
+	
+func _should_create_monster(planet):
+	return planet.infection_rate > 0.8 and rng.randf() < 0.2
 
 func _log(msg):
 	print("[infection] ", msg)
