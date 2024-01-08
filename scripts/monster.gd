@@ -3,7 +3,7 @@ class_name Monster
 
 export var max_velocity = 8
 export var min_velocity = 3
-export var accellaration = 2
+export var accellaration = 1
 var cur_velocity = 0
 
 var brain = null
@@ -22,8 +22,8 @@ func _physics_process(delta):
 		target_velocity = max_velocity
 	else:
 		anim.playback_speed = 0.4
-		if !target_position || target_position.distance_squared_to(translation) < 10:
-			target_position = translation + Vector3(rand_range(-100, 100), rand_range(-100, 100), 0)
+		if !target_position || target_position.distance_squared_to(translation) < 100:
+			target_position = translation + Vector3(rand_range(-50, 50), rand_range(-50, 50), 0)
 		target_velocity = min_velocity
 	
 	var direction = translation.direction_to(target_position)
@@ -35,18 +35,17 @@ func _physics_process(delta):
 		cur_velocity = max(target_velocity, cur_velocity - accellaration * delta)
 	
 	move_and_slide(direction * cur_velocity)
-	
-	
+
 
 func _on_DetectionArea_body_entered(body: Node) -> void:
 	if brain:
-		brain.enemy_saw_someone(self, body)
+		brain.monster_saw_someone(self, body)
 
 func _on_DetectionArea_body_exited(body: Node) -> void:
 	if brain:
-		brain.enemy_lost_someone(self, body)
+		brain.monster_lost_someone(self, body)
 
 func _on_CollisionArea_body_entered(body: Node) -> void:
 	if brain:
-		brain.enemy_hit_someone(self, body)
+		brain.monster_hit_someone(self, body)
 

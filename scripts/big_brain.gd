@@ -85,9 +85,15 @@ func _on_turntimer_timeout():
 
 func _manage_world():
 	var bot_planets = []
+	var all_planets = []
 	for bot in bots:
 		for planet in bot.planets:
 			bot_planets.append(planet)
+			all_planets.append(planet)
+			
+	for obj in gaia:
+		if obj is Planet:
+			all_planets.append(obj)
 	
 	if bot_planets.size() == 0:
 		game_over()
@@ -126,6 +132,24 @@ func _manage_world():
 	for r in rockets_to_be_removed:
 		rockets.remove(rockets.find(r))
 		r.queue_free()
+		
+	var monsters_to_be_removed = []
+	for m in monsters:
+		# if not pursuing the player find the nearest planet or ship
+		if !m.is_queued_for_deletion() && m.target_object != player:
+			var p = closest_planet_to(all_planets, m.translation)
+			var dist = p.translation.distance_to(m.translation)
+			if dist < p.radius:
+				p.infection_rate = max(p.infection_rate + 0.5, 1.0)
+				monsters_to_be_removed.append(m)
+				print("MONSTER INFECTED PLANET")
+			elif m.target_object == null && dist < 2 * p.radius && p.infection_rate < 0.2 && randf() < 0.1:
+				m.target_object = p
+				print("MONSTER DECIDED TO INFECT PLANET")
+				
+	for m in monsters_to_be_removed:
+		monsters.remove(monsters.find(m))
+		m.queue_free()
 		
 	ui.set_player_info("Monsters", str(monsters.size()))
 
@@ -202,6 +226,17 @@ func destroy_fast_rocket(rocket):
 func play_sound(sound):
 	get_owner().play_sound(sound)
 	
+func closest_planet_to(planets, target:Vector3):
+	var min_dist = INF
+	var min_planet = null
+	for p in planets:
+		var dist = p.translation.distance_squared_to(target)
+		if dist < min_dist:
+			min_planet = p
+			min_dist = dist
+			
+	return min_planet
+	
 func assign_task(task):
 	var ship = task["ship"]
 	
@@ -258,17 +293,19 @@ func register_monster(monster):
 func set_bounds(bounds):
 	self.bounds = bounds
 	
-func enemy_saw_someone(enemy, target):
+func monster_saw_someone(monster, target):
 	if target == player:
-		enemy.target_object = target
+		monster.target_object = target
 		
-func enemy_lost_someone(enemy, target):
+func monster_lost_someone(monster, target):
 	if target == player:
-		enemy.target_object = null
+		monster.target_object = null
 		
-func enemy_hit_someone(enemy, target):
+func monster_hit_someone(monster, target):
 	if target == player:
 		game_over()
+	elif target is Planet:
+		pass # handled during bb think cycle
 		
 func rocket_collided(rocket, target):
 	if target.is_in_group("Monster"):
