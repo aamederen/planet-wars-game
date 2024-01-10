@@ -24,10 +24,7 @@ func think_and_play(bb, world):
 	# here comes the AI
 	rng.randomize()
 	
-	# Jump from planet to ships
-	var infected_planets = _get_planets_with_infection(world)
-	
-	for planet in infected_planets:
+	for planet in planets:
 		if _should_create_monster(planet):
 			_log("CREATING MONSTER")
 			bb.create_monster(planet)
@@ -164,7 +161,8 @@ func _should_infect_planet(ship, planet):
 	return ship.infection_rate > 0.6 and rng.randf() < 0.1
 	
 func _should_create_monster(planet):
-	return planet.infection_rate > 0.8 and rng.randf() < 0.2
+	# Assuming planet is fully infected
+	return rng.randf() < 0.1
 
 func _log(msg):
 	print("[infection] ", msg)

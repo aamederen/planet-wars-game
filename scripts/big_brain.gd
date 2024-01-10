@@ -143,7 +143,7 @@ func _manage_world():
 				p.infection_rate = max(p.infection_rate + 0.5, 1.0)
 				monsters_to_be_removed.append(m)
 				print("MONSTER INFECTED PLANET")
-			elif m.target_object == null && dist < 2 * p.radius && p.infection_rate < 0.2 && randf() < 0.1:
+			elif m.target_object == null && dist < 2 * p.radius && p.infection_rate < 0.01 && randf() < 0.1:
 				m.target_object = p
 				print("MONSTER DECIDED TO INFECT PLANET")
 				
@@ -304,6 +304,8 @@ func monster_lost_someone(monster, target):
 func monster_hit_someone(monster, target):
 	if target == player:
 		game_over()
+	elif target is Ship:
+		explode_ship(target)
 	elif target is Planet:
 		pass # handled during bb think cycle
 		

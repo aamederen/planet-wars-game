@@ -72,7 +72,7 @@ func think_and_play(bb, world):
 		for planet in bot.planets:
 			visible_planets.append(planet)
 	
-	# Check my current ships and ashsign tasks to the idle ones
+	# Check my current ships and assign tasks to the idle ones
 	for ship in ships:
 		if not ship.is_active():
 			if visible_planets.size() == 0:
@@ -89,14 +89,21 @@ func think_and_play(bb, world):
 			})
 
 	if money > 1000  and world["enemy"].planets.size() > 0:
+		var closest_enemy_planet
+		var closest_enemy_planet_distsq = INF
+		var my_closest_planet_to_enemy
+		
 		for enemy_planet in world["enemy"].planets:
 			var my_closest_planet = bb.closest_planet_to(planets, enemy_planet.translation)
-			var dist = my_closest_planet.translation.distance_squared_to(enemy_planet.translation)
+			var distsq = my_closest_planet.translation.distance_squared_to(enemy_planet.translation)
 			
-			if (dist < 10000):
-				bb.create_rocket(self, "attack", my_closest_planet, enemy_planet)
-				break
+			if (distsq < closest_enemy_planet_distsq):
+				closest_enemy_planet_distsq = distsq
+				my_closest_planet_to_enemy = my_closest_planet
+				closest_enemy_planet = enemy_planet
 
+		bb.create_rocket(self, "attack", my_closest_planet_to_enemy, closest_enemy_planet)
+		
 	var msg = summarize()
 	_log(msg)
 	bb.ui.set_player_info(get_player_name(), msg)
