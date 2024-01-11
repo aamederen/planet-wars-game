@@ -35,8 +35,10 @@ func _ready():
 func _physics_process(delta):
 	# TODO: handle collisions
 	if player && bounds:
-		player.translation.x = max(bounds[0].x, min(bounds[1].x, player.translation.x))
-		player.translation.y = max(bounds[0].y, min(bounds[1].y, player.translation.y))
+		for o in monsters + [player]:
+			o.translation.x = max(bounds[0].x, min(bounds[1].x, o.translation.x))
+			o.translation.y = max(bounds[0].y, min(bounds[1].y, o.translation.y))
+		
 		
 		
 func _on_aitimer_timeout(): # Allow bots to behave!
