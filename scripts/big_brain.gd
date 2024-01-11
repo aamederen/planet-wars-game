@@ -86,6 +86,11 @@ func _on_turntimer_timeout():
 func _manage_world():
 	var bot_planets = []
 	var all_planets = []
+	
+	if monsters.size() == 0 && enemy.planets.size() == 0:
+		game_over()
+		return
+	
 	for bot in bots:
 		for planet in bot.planets:
 			bot_planets.append(planet)
@@ -280,6 +285,10 @@ func register_bot(bot:Bot):
 
 func register_gaia(object:Planet):
 	gaia.append(object)
+	
+func register_enemy_planet(planet:Planet):
+	planet.infection_rate = 1.0
+	enemy.add_planet(planet)
 	
 func register_player(player):
 	self.player = player

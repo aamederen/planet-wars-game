@@ -68,15 +68,15 @@ func think_and_play(bb, world):
 					_log("INFECTION JUMPED TO A PLANET")
 
 func grow(bb, world):
+	rng.randomize()
 	var all_planets = _bot_planets(world)
 	if all_planets.size() == 0:
 		return
 	
 	var infected_planets = _get_planets_with_infection(world)
 	var ships = _get_ships_with_infection(world)
-	var total_infection = 0
-	rng.randomize()
 				
+	var total_infection = 0
 	for planet in infected_planets:
 		planet.set_infection(min(planet.infection_rate + growth_coefficient, 1))
 		total_infection += planet.infection_rate
@@ -93,7 +93,7 @@ func grow(bb, world):
 			bb.play_sound("infected_planet")
 			_log("INFECTED PLANET " + str(victim_planet))
 	
-	var msg = "Ships: %d, Infected Planets: %d, total: %s" % [ships.size(), infected_planets.size() + planets.size(), total_infection]
+	var msg = "Ships: %d, Infected Planets: %d, total: %s" % [ships.size(), planets.size(), total_infection]
 	bb.ui.set_player_info("enemy", msg)
 	_log(msg)
 

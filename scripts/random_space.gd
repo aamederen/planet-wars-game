@@ -12,6 +12,7 @@ export var min_planet_per_bot:int = 1
 export var max_planet_per_bot:int = 1
 export var empty_planets:int = 10
 export var starting_money:int = 500
+export var enemy_planets:int = 2
 
 var green_planet = preload("res://scenes/objects/green_planet.tscn")
 var yellow_planet = preload("res://scenes/objects/yellow_planet.tscn")
@@ -113,6 +114,9 @@ func generate_space():
 		
 	for i in monster_count:
 		bb.register_monster(create_random_monster())
+		
+	for i in enemy_planets:
+		bb.register_enemy_planet(create_random_planet(green_planet))
 	
 	bb.register_gaia(create_random_planet(yellow_planet))
 	
