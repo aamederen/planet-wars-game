@@ -2,8 +2,8 @@ extends Spatial
 class_name FastRocket
 
 # Declare member variables here. Examples:
-export var max_velocity = 200
-export var accellaration = 40
+var max_velocity = 300
+var accellaration = 60
 var cur_velocity = 0
 var brain = null
 	

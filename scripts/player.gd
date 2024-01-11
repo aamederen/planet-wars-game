@@ -5,8 +5,8 @@ var speed = 0
 var direction = Vector3(1, 0, 0)
 var acceleration = 5
 var time_to_shoot = 0
-var shoot_time_needed = 1
-var rotation_speed = 2
+var shoot_time_needed = 2
+var rotation_speed = 2.5
 
 var brain = null
 var target = null
