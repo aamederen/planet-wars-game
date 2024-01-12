@@ -9,7 +9,7 @@ var shoot_time_needed = 2
 var rotation_speed = 2.5
 
 var brain = null
-var target = null
+var targets = []
 
 func _physics_process(delta):
 	var is_key_pressed = false
@@ -30,13 +30,23 @@ func _physics_process(delta):
 	
 func _process(delta):
 	time_to_shoot = max(0, time_to_shoot - delta)
-	if target && target.is_queued_for_deletion():
-		target = null
-	if time_to_shoot == 0 && target:
-		brain.create_fast_rocket(target)
-		print ("shooting a missile")
-		time_to_shoot = shoot_time_needed
+	if time_to_shoot == 0:
+		targets.shuffle()
+		for target in targets:
+			if target.is_queued_for_deletion():
+				targets.erase(target)
+				continue
+				
+			brain.create_fast_rocket(target)
+			print ("shooting a missile")
+			time_to_shoot = shoot_time_needed
+			break
 
 func _on_FireRangeArea_body_entered(body: Node) -> void:
-	if body.is_in_group("Monster") && !target:
-		target = body
+	if body.is_in_group("Monster"):
+		targets.append(body)
+
+
+func _on_FireRangeArea_body_exited(body: Node) -> void:
+	if body.is_in_group("Monster"):
+		targets.erase(body)

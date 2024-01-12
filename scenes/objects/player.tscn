@@ -37,3 +37,4 @@ layers = 2
 mesh = SubResource( 5 )
 
 [connection signal="body_entered" from="FireRangeArea" to="." method="_on_FireRangeArea_body_entered"]
+[connection signal="body_exited" from="FireRangeArea" to="." method="_on_FireRangeArea_body_exited"]

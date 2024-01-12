@@ -4,7 +4,7 @@ class_name Planet
 # Spatial properties
 export var axis_angle:float = 20.0
 export var rotation_speed:float = 0.5
-export var radius = 50
+export var radius = 40
 var rotation_axis = null
 var halo_color = null
 

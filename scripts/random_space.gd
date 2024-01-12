@@ -126,7 +126,8 @@ func generate_space():
 
 func _random_pos_around_planet(planet):
 	var pos_rad = rng.randf_range(-PI, PI)
-	return planet.translation + Vector3(planet.radius * sin(pos_rad), planet.radius * cos(pos_rad), 0)
+	var offset = planet.radius * Vector3(sin(pos_rad), cos(pos_rad), 0)
+	return planet.translation + offset
 
 func create_new_ship(type, planet):
 	if type == "trading":
@@ -149,8 +150,9 @@ func create_random_monster():
 	return m
 	
 func create_monster(planet):
+	var position = _random_pos_around_planet(planet)
 	var m = create_random_monster()
-	m.translate(_random_pos_around_planet(planet))
+	m.translation = position
 	return m
 	
 func create_random_planet(scene):
