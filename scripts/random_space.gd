@@ -132,15 +132,14 @@ func _random_pos_around_planet(planet):
 func create_new_ship(type, planet):
 	if type == "trading":
 		var ship = big_ship.instance()
-		ship.translate(_random_pos_around_planet(planet))
+		ship.translation = planet.translation
 		$Objects.add_child(ship)
 		connect("ui_details_changed", ship, "update_halo")
 		return ship as Ship
 		
 func create_big_rocket(planet):
 	var rocket = big_rocket.instance()
-	var pos_rad = rng.randf_range(-PI, PI)
-	rocket.translate(planet.translation + Vector3(planet.radius * sin(pos_rad), planet.radius * cos(pos_rad), 0))
+	rocket.translation = planet.translation
 	$Objects.add_child(rocket)
 	connect("ui_details_changed", rocket, "update_halo")
 	return rocket as Rocket
