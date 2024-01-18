@@ -146,6 +146,7 @@ func create_big_rocket(planet):
 	
 func create_random_monster():
 	var m = create_random_object(monster)
+	m.boundaries = cameraBounds
 	return m
 	
 func create_monster(planet):

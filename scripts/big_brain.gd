@@ -142,7 +142,7 @@ func _manage_world():
 		
 	var monsters_to_be_removed = []
 	for m in monsters:
-		# if not pursuing the player find the nearest planet or ship
+		# if not pursuing the player find the nearest planet to randomly infect
 		if !m.is_queued_for_deletion() && m.target_object != player:
 			var p = closest_planet_to(all_planets, m.translation)
 			var dist = p.translation.distance_to(m.translation)
