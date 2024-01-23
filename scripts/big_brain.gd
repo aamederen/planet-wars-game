@@ -38,8 +38,7 @@ func _physics_process(delta):
 		for o in monsters + [player]:
 			o.translation.x = max(bounds[0].x, min(bounds[1].x, o.translation.x))
 			o.translation.y = max(bounds[0].y, min(bounds[1].y, o.translation.y))
-		
-		
+				
 		
 func _on_aitimer_timeout(): # Allow bots to behave!
 	bots.shuffle()
@@ -112,6 +111,7 @@ func _manage_world():
 		for planet in bot.planets:
 			if planet.infection_rate == 1:
 				bot.remove_planet(planet)
+				# TODO: cancel all tasks here
 				enemy.add_planet(planet)
 				play_sound("enemy_owned_planet")
 				
@@ -281,6 +281,15 @@ func complete_process(process):
 		rockets.append(rocket)
 		play_sound("build_rocket")
 		ui.add_event("A new rocket is sent by " + bot.get_player_name())
+	elif process["type"] == "create_upgrade_pack":
+		var planet = process["planet"]
+		var type = process["upgrade_type"]
+		var bot = process["bot"]
+		var pack = get_owner().create_upgrade_pack(planet)
+		pack.type = type
+		pack.brain = self
+		play_sound("build_rocket")
+		ui.add_event("A new upgrade pack is created by " + bot.get_player_name())
 
 func register_bot(bot:Bot):
 	bots.append(bot)
@@ -320,6 +329,11 @@ func monster_hit_someone(monster, target):
 	elif target is Planet:
 		pass # handled during bb think cycle
 		
+func upgrade_pack_hit_something(pack, target):
+	if target == player:
+		player.upgrade(pack.type)
+		pack.queue_free()
+
 func rocket_collided(rocket, target):
 	if target.is_in_group("Monster"):
 		kill_monster(target)
@@ -359,3 +373,14 @@ func create_rocket(bot:Bot, type:String, from_planet:Planet, to_planet:Planet):
 			"turns_left": 5
 		}
 		processes.append(process)
+
+func create_upgrade_pack(bot:Bot, planet:Planet):
+	bot.remove_money(100)
+	var process = {
+		"bot": bot,
+		"type": "create_upgrade_pack",
+		"upgrade_type": bot.upgrade_type,
+		"planet": planet,
+		"turns_left": 3
+	}
+	processes.append(process)

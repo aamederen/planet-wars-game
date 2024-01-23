@@ -16,6 +16,8 @@ transform = Transform( -2.18557e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -2.18557e-08, 0
 transform = Transform( -2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 0, 0, 0 )
 mesh = ExtResource( 1 )
 skeleton = NodePath("../..")
+material/0 = null
+material/1 = null
 
 [node name="CollisionArea" type="Area" parent="."]
 

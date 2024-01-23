@@ -22,6 +22,7 @@ var fast_rocket = preload("res://scenes/objects/fast_rocket.tscn")
 var big_rocket = preload("res://scenes/objects/big_rocket.tscn")
 var player = preload("res://scenes/objects/player.tscn")
 var monster = preload("res://scenes/objects/monster.tscn")
+var upgrade_pack = preload("res://scenes/objects/upgrade_pack.tscn")
 
 
 var rng = RandomNumberGenerator.new()
@@ -34,6 +35,7 @@ var planet_names = ["Iguzuno", "Zelvegantu", "Sachides", "Chagreshan", "Seilara"
 				   "Callepra", "Helmaomia", "Ostrade", "Yangippe", "Uestea", "Duiphus", "Gnobamia", "Gnoleyama", "Cholla LG8", "Crypso FGLM",
 				   "Ilgaz", "Tanriyar", "Knidos", "Petrapo", "Kastumanna", "Gas Tumoni", "Fullosaf", "New Ancyra", "Erean", "Ecosh"]
 var colony_names = ["Gokboru", "Karagu", "Kizgil Boys", "Pecenek", "Daday Corp", "Sorkun Dynasty", "Bashak", "Tea Road"]
+var upgrade_types = ["rotation_speed", "max_speed", "time_to_shoot"]
 
 func _ready():
 	print("Welcome to the random space!!")
@@ -98,7 +100,9 @@ func generate_space():
 		var name = colony_names[colony_name_index]
 		colony_names.remove(colony_name_index)
 		
-		var bot = Bot.new(name, starting_money, colors[i])
+		var upgrade_type = upgrade_types[rng.randi_range(0, upgrade_types.size() - 1)]
+
+		var bot = Bot.new(name, starting_money, colors[i], upgrade_type)
 		
 		# Let's give them some planets
 		for j in planet_count:
@@ -154,6 +158,12 @@ func create_monster(planet):
 	var m = create_random_monster()
 	m.translation = position
 	return m
+
+func create_upgrade_pack(planet):
+	var position = _random_pos_around_planet(planet)
+	var u = create_random_object(upgrade_pack)
+	u.translation = position
+	return u
 	
 func create_random_planet(scene):
 	var pos = find_pos_for_planet()

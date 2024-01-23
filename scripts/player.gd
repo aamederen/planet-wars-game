@@ -11,6 +11,14 @@ var rotation_speed = 2.5
 var brain = null
 var targets = []
 
+func upgrade(type):
+	if type == "max_speed":
+		max_speed = min(40, max_speed + 1)
+	elif type == "rotation_speed":
+		rotation_speed = min(4, rotation_speed + 0.1)
+	elif type == "time_to_shoot":
+		shoot_time_needed = max(0.5, shoot_time_needed - 0.1)
+
 func _physics_process(delta):
 	var is_key_pressed = false
 	

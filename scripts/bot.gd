@@ -7,11 +7,13 @@ var planets = []
 var ships = []
 var money:int = 0
 var color = null
+var upgrade_type = null
 
-func _init(name, money, color):
+func _init(name, money, color, upgrade_type):
 	self.player_name = name
 	self.money = money
 	self.color = color
+	self.upgrade_type = upgrade_type
 	_log(player_name + " joined game")
 
 func add_money(mny:int):
@@ -103,6 +105,10 @@ func think_and_play(bb, world):
 				closest_enemy_planet = enemy_planet
 
 		bb.create_rocket(self, "attack", my_closest_planet_to_enemy, closest_enemy_planet)
+
+	if money > 200:
+		var target_planet = planets[randi() % planets.size()]
+		bb.create_upgrade_pack(self, target_planet)
 		
 	var msg = summarize()
 	_log(msg)
