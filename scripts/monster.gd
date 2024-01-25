@@ -4,6 +4,7 @@ class_name Monster
 export var max_velocity = 12
 export var min_velocity = 8
 export var accellaration = 1
+export var hit_points = 2
 var cur_velocity = 0
 var boundaries = null
 
@@ -14,6 +15,12 @@ var target_position = null
 var target_velocity = 0
 
 onready var anim = $monster_mesh_scene/AnimationPlayer
+
+func damage():
+	hit_points -= 1
+
+func is_dead():
+	return hit_points <= 0
 
 func _is_hit_boundaries():
 	return boundaries && \

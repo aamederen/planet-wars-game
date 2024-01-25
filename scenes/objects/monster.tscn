@@ -4,6 +4,7 @@
 [ext_resource path="res://scripts/monster.gd" type="Script" id=2]
 
 [sub_resource type="SphereShape" id=2]
+radius = 3.0
 
 [sub_resource type="SphereShape" id=1]
 
@@ -15,17 +16,16 @@ albedo_color = Color( 0.85098, 1, 0, 1 )
 
 [sub_resource type="SphereMesh" id=5]
 material = SubResource( 4 )
-radius = 5.0
-height = 10.0
+radius = 10.0
+height = 20.0
+radial_segments = 10
+rings = 4
 
 [node name="Monster" type="KinematicBody" groups=["Monster"]]
 script = ExtResource( 2 )
 
 [node name="monster_mesh_scene" parent="." instance=ExtResource( 1 )]
-transform = Transform( 7.64274e-17, 1.74846e-09, 0.04, 0.04, -1.74846e-09, 0, 1.74846e-09, 0.04, -1.74846e-09, 0, 0, 0 )
-__meta__ = {
-"_editor_description_": "		"
-}
+transform = Transform( 1.52854e-16, 3.49691e-09, 0.08, 0.08, -3.49691e-09, 8.33798e-22, 3.49691e-09, 0.08, -3.49691e-09, 0, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 2 )
@@ -44,6 +44,7 @@ shape = SubResource( 3 )
 [node name="MinimapIndicator" type="MeshInstance" parent="."]
 layers = 2
 mesh = SubResource( 5 )
+material/0 = null
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_DetectionArea_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_DetectionArea_body_exited"]

@@ -1,18 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://fonts/Boxfont Round.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://scripts/menu.gd" type="Script" id=2]
+[ext_resource path="res://scripts/gameover.gd" type="Script" id=2]
 
 [sub_resource type="DynamicFont" id=1]
 size = 80
 outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=3]
-size = 20
-outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
@@ -33,54 +26,39 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
-color = Color( 0.0431373, 0.129412, 0.196078, 1 )
+color = Color( 0.0588235, 0.215686, 0.329412, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="Label" parent="."]
+[node name="Label" type="Label" parent="."]
+margin_top = 200.0
 margin_right = 1280.0
-margin_bottom = 152.0
+margin_bottom = 285.0
 custom_colors/font_color_shadow = Color( 0.188235, 0.188235, 0.188235, 1 )
 custom_constants/shadow_offset_x = 2
 custom_constants/shadow_offset_y = 2
 custom_fonts/font = SubResource( 1 )
-text = "Just Another Space Sorrow"
+text = "The Galaxy is Saved !!!"
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Credits" type="Label" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -200.0
-margin_right = -50.0
-margin_bottom = -50.0
-custom_colors/font_color_shadow = Color( 0.188235, 0.188235, 0.188235, 1 )
-custom_constants/shadow_offset_x = 2
-custom_constants/shadow_offset_y = 2
-custom_fonts/font = SubResource( 3 )
-text = "A game by @aamederen
-Assets by kenney.nl"
-align = 2
-valign = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="button-title-play" type="Button" parent="."]
+[node name="button-title-ok" type="Button" parent="."]
 margin_left = 523.067
-margin_top = 376.025
+margin_top = 400.0
 margin_right = 783.067
-margin_bottom = 472.025
+margin_bottom = 496.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.392157, 0.627451, 1, 1 )
 custom_colors/font_color_pressed = Color( 0.6, 0.6, 0.6, 1 )
 custom_fonts/font = SubResource( 2 )
-text = "PLAY!"
+text = "Hell Yeah !"
 flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[connection signal="pressed" from="button-title-play" to="." method="_on_buttontitleplay_pressed"]
+[connection signal="pressed" from="button-title-ok" to="." method="_on_buttontitleok_pressed"]

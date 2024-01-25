@@ -89,7 +89,7 @@ func _manage_world():
 	var all_planets = []
 	
 	if monsters.size() == 0 && enemy.planets.size() == 0:
-		game_over()
+		game_won()
 		return
 	
 	for bot in bots:
@@ -222,6 +222,11 @@ func create_monster(planet):
 	var monster = get_owner().create_monster(planet)
 	register_monster(monster)
 
+func damage_monster(monster):
+	monster.damage()
+	if monster.is_dead():
+		kill_monster(monster)
+
 func kill_monster(monster):
 	monsters.remove(monsters.find(monster))
 	play_sound("monster_dead")
@@ -336,7 +341,7 @@ func upgrade_pack_hit_something(pack, target):
 
 func rocket_collided(rocket, target):
 	if target.is_in_group("Monster"):
-		kill_monster(target)
+		damage_monster(target)
 		destroy_fast_rocket(rocket)
 		
 func create_fast_rocket(target):
@@ -348,6 +353,9 @@ func create_fast_rocket(target):
 	
 func game_over():
 	get_tree().change_scene("res://scenes/settings/gameover.tscn")
+
+func game_won():
+	get_tree().change_scene("res://scenes/settings/gamewon.tscn")
 	
 func create_ship(bot:Bot, type:String, planet:Planet):
 	if type == "trading":
