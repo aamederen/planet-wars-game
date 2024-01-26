@@ -8,6 +8,9 @@ var time_to_shoot = 0
 var shoot_time_needed = 2
 var rotation_speed = 2.5
 
+onready var boosterleft:Particles = $boosterleft
+onready var boosterright:Particles = $boosterright
+
 var brain = null
 var targets = []
 
@@ -20,17 +23,23 @@ func upgrade(type):
 		shoot_time_needed = max(0.5, shoot_time_needed - 0.1)
 
 func _physics_process(delta):
-	var is_key_pressed = false
+	
+	var rotated = 0
 	
 	if Input.is_action_pressed("player_left"):
+		rotated = -1
 		direction = direction.rotated(Vector3(0, 0, 1), rotation_speed * delta)
 	elif Input.is_action_pressed("player_right"):
+		rotated = 1
 		direction = direction.rotated(Vector3(0, 0, 1), -rotation_speed * delta)
 		
 	if Input.is_action_pressed("player_up"):
 		speed = min(max_speed, speed + acceleration * delta)
 	elif Input.is_action_pressed("player_down"):
 		speed = max(0, speed - acceleration * delta)
+		
+	boosterleft.emitting = speed > 0.1 || rotated > 0
+	boosterright.emitting = speed > 0.1 || rotated < 0
 	
 	rotation.z = direction.signed_angle_to(Vector3(1,0,0), Vector3(0,0,-1))
 		

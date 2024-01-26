@@ -18,7 +18,7 @@ func _ready():
 func _physics_process(delta):
 	rotation_axis = Vector3(0,1,0).rotated(Vector3(0,0,-1), axis_angle * PI / 360)
 	# $planetmesh.rotate(rotation_axis, rotation_speed * delta)
-	rotate(rotation_axis, rotation_speed * delta)
+	$planetmesh.rotate(rotation_axis, rotation_speed * delta)
 
 func set_infection(new_rate):
 	self.infection_rate = new_rate
