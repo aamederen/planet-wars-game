@@ -37,6 +37,7 @@ func _physics_process(delta):
 		speed = min(max_speed, speed + acceleration * delta)
 	elif Input.is_action_pressed("player_down"):
 		speed = max(0, speed - acceleration * delta)
+	
 		
 	boosterleft.emitting = speed > 0.1 || rotated > 0
 	boosterright.emitting = speed > 0.1 || rotated < 0
