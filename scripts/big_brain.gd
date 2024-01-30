@@ -230,7 +230,7 @@ func damage_monster(monster):
 func kill_monster(monster):
 	monsters.remove(monsters.find(monster))
 	play_sound("monster_dead")
-	monster.queue_free()
+	monster.die()
 	
 func destroy_fast_rocket(rocket):
 	rocket.queue_free()

@@ -18,7 +18,18 @@ onready var anim = $monster_mesh_scene/AnimationPlayer
 
 func damage():
 	hit_points -= 1
+	$AnimationPlayer.play("TakeDamage")
 
+func die():
+	$AnimationPlayer.play("Die")
+	yield($AnimationPlayer, "animation_finished")
+	queue_free()
+
+func spin():
+	anim.play("Tail Swipe")
+	anim.advance(1.3)
+	anim.playback_speed = 3.8
+	
 func is_dead():
 	return hit_points <= 0
 
@@ -28,13 +39,16 @@ func _is_hit_boundaries():
 			translation.y <= boundaries[0].y + 10 || translation.y >= boundaries[1].y - 10)
 
 func _physics_process(delta):
-	anim.play("Moving Idle")
-	if (target_object):
-		anim.playback_speed = 1.0
-		target_position = target_object.translation	
-		target_velocity = max_velocity
-	else:
-		anim.playback_speed = 0.4
+	if !anim.is_playing():
+		anim.play("Moving Idle")
+		
+	if anim.assigned_animation == "Moving Idle":
+		if (target_object):
+			anim.playback_speed = 1.0
+			target_position = target_object.translation	
+			target_velocity = max_velocity
+		else:
+			anim.playback_speed = 0.4
 		
 		# if reached the roaming target or end of camera boundaries
 		if !target_position || target_position.distance_squared_to(translation) < 1000 || _is_hit_boundaries():
