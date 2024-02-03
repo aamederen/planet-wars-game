@@ -22,8 +22,16 @@ func upgrade(type):
 	elif type == "time_to_shoot":
 		shoot_time_needed = max(0.5, shoot_time_needed - 0.1)
 
+func die():
+	set_physics_process(false)
+	set_process(false)
+	$boosterleft.visible = false
+	$boosterright.visible = false
+	$MeshInstance.visible = false
+	$DeathParticles.visible = true
+	$DeathParticles.emitting = true
+
 func _physics_process(delta):
-	
 	var rotated = 0
 	
 	if Input.is_action_pressed("player_left"):

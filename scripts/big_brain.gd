@@ -328,6 +328,7 @@ func monster_lost_someone(monster, target):
 		
 func monster_hit_someone(monster, target):
 	if target == player:
+		kill_monster(monster)
 		game_over()
 	elif target is Ship:
 		explode_ship(target)
@@ -352,6 +353,8 @@ func create_fast_rocket(target):
 	rocket.rotation.z = direction.signed_angle_to(Vector3(1,0,0), Vector3(0, 0, -1))
 	
 func game_over():
+	player.die()
+	yield(get_tree().create_timer(2.0), "timeout")
 	get_tree().change_scene("res://scenes/settings/gameover.tscn")
 
 func game_won():

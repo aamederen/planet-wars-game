@@ -18,7 +18,7 @@ onready var anim = $monster_mesh_scene/AnimationPlayer
 
 func damage():
 	hit_points -= 1
-	$AnimationPlayer.play("TakeDamage")
+	# $AnimationPlayer.play("TakeDamage")
 
 func die():
 	$AnimationPlayer.play("Die")
