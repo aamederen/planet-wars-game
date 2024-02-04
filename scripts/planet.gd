@@ -5,6 +5,8 @@ class_name Planet
 export var axis_angle:float = 20.0
 export var rotation_speed:float = 0.5
 export var radius = 40
+export var belongs_to:String = ""
+
 var rotation_axis = null
 var halo_color = null
 
@@ -23,9 +25,11 @@ func _physics_process(delta):
 func set_infection(new_rate):
 	self.infection_rate = new_rate
 	$HealthSprite/Viewport/Label.text = "Infection: %d%%" % (new_rate*100)
+	_update_particles()
 
 func set_title(text):
 	$LabelSprite/Viewport/Label.text = text
+	belongs_to = text
 
 func update_halo():
 	if $Halo == null:
@@ -47,6 +51,17 @@ func set_halo_color(c):
 		$MinimapIndicator.mesh.material = $MinimapIndicator.mesh.material.duplicate()
 		$MinimapIndicator.mesh.material.albedo_color = self.halo_color
 	update_halo()
+	
+func _update_particles():
+	if belongs_to == "INFECTED":
+		$DiseaseParticles.emitting = true
+		$DiseaseParticles.visible = true
+	elif belongs_to != "":
+		$DiseaseParticles.emitting = false
+		$DiseaseParticles.visible = false
+	else:
+		$DiseaseParticles.emitting = false
+		$DiseaseParticles.visible = false
 
 func _on_Area_mouse_entered():
 	$Halo.material.albedo_color = Color(0.3, 0.3, 1, 0.3)
