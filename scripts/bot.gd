@@ -32,7 +32,7 @@ func add_ship(ship):
 func remove_ship(ship):
 	ships.remove(ships.find(ship))
 
-func add_planet(planet):
+func add_planet(planet:Planet):
 	planet.set_title(player_name)
 	planet.set_infection(0)
 	planet.set_halo_color(color)

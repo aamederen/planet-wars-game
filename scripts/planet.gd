@@ -25,7 +25,6 @@ func _physics_process(delta):
 func set_infection(new_rate):
 	self.infection_rate = new_rate
 	$HealthSprite/Viewport/Label.text = "Infection: %d%%" % (new_rate*100)
-	_update_particles()
 
 func set_title(text):
 	$LabelSprite/Viewport/Label.text = text
@@ -52,17 +51,23 @@ func set_halo_color(c):
 		$MinimapIndicator.mesh.material.albedo_color = self.halo_color
 	update_halo()
 	
-func _update_particles():
-	if belongs_to == "INFECTED":
-		$DiseaseParticles.emitting = true
-		$DiseaseParticles.visible = true
-	elif belongs_to != "":
-		$DiseaseParticles.emitting = false
-		$DiseaseParticles.visible = false
-	else:
-		$DiseaseParticles.emitting = false
-		$DiseaseParticles.visible = false
-
+func enemy_captured_planet():
+	$DiseaseParticles.emitting = true
+	$DiseaseParticles.visible = true
+	$HealParticles.visible = false
+	
+func heal_rocket_hit_planet():
+	$HealParticles.visible = true
+	$HealParticles.amount = 10
+	$HealParticles.emitting = true
+	
+func enemy_wiped_from_planet():
+	$DiseaseParticles.emitting = false
+	$DiseaseParticles.visible = false
+	$HealParticles.visible = true
+	$HealParticles.amount = 100
+	$HealParticles.emitting = true
+	
 func _on_Area_mouse_entered():
 	$Halo.material.albedo_color = Color(0.3, 0.3, 1, 0.3)
 	$Halo.visible = true

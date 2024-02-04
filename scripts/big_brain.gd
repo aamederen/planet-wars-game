@@ -135,6 +135,9 @@ func _manage_world():
 				if planet.infection_rate == 0:
 					enemy.remove_planet(planet)
 					bot.add_planet(planet)
+					planet.enemy_wiped_from_planet()
+				else:
+					planet.heal_rocket_hit_planet()
 					
 	for r in rockets_to_be_removed:
 		rockets.remove(rockets.find(r))
@@ -304,6 +307,7 @@ func register_gaia(object:Planet):
 	
 func register_enemy_planet(planet:Planet):
 	planet.infection_rate = 1.0
+	planet.enemy_captured_planet()
 	enemy.add_planet(planet)
 	
 func register_player(player):
