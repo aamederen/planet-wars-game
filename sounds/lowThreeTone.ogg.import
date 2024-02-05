@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/lowThreeTone.ogg-e13132b9a5fd3e259627f9d1d29eb679.oggstr"
+
+[deps]
+
+source_file="res://sounds/lowThreeTone.ogg"
+dest_files=[ "res://.import/lowThreeTone.ogg-e13132b9a5fd3e259627f9d1d29eb679.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

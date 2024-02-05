@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://space_env.tres" type="Environment" id=1]
 [ext_resource path="res://scripts/random_space.gd" type="Script" id=2]
@@ -8,11 +8,16 @@
 [ext_resource path="res://arrow.png" type="Texture" id=6]
 [ext_resource path="res://zoomout.png" type="Texture" id=7]
 [ext_resource path="res://zoomin.png" type="Texture" id=8]
-[ext_resource path="res://332580__kelewin__dharmawave.mp3" type="AudioStream" id=9]
-[ext_resource path="res://spaceTrash3.ogg" type="AudioStream" id=10]
-[ext_resource path="res://zapThreeToneUp.ogg" type="AudioStream" id=11]
+[ext_resource path="res://sounds/332580__kelewin__dharmawave.mp3" type="AudioStream" id=9]
+[ext_resource path="res://sounds/spaceTrash3.ogg" type="AudioStream" id=10]
+[ext_resource path="res://sounds/zapThreeToneUp.ogg" type="AudioStream" id=11]
 [ext_resource path="res://crossair.png" type="Texture" id=12]
 [ext_resource path="res://scenes/settings/MinimapCamera.gd" type="Script" id=13]
+[ext_resource path="res://sounds/explosionCrunch_000.ogg" type="AudioStream" id=14]
+[ext_resource path="res://sounds/slime_000.ogg" type="AudioStream" id=15]
+[ext_resource path="res://sounds/powerUp11.ogg" type="AudioStream" id=16]
+[ext_resource path="res://sounds/powerUp10.ogg" type="AudioStream" id=17]
+[ext_resource path="res://sounds/pepSound4.ogg" type="AudioStream" id=18]
 
 [sub_resource type="DynamicFont" id=1]
 size = 10
@@ -297,6 +302,21 @@ stream = ExtResource( 11 )
 
 [node name="EnemyAction" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 10 )
+
+[node name="MonsterDamaged" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 14 )
+
+[node name="MonsterCreated" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 18 )
+
+[node name="MonsterDead" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 15 )
+
+[node name="UpgradePicked" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 16 )
+
+[node name="UpgradeCreated" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 17 )
 
 [connection signal="pressed" from="UI/ControlsContainer/DetailsButton" to="UI" method="_on_DetailsButton_pressed"]
 [connection signal="pressed" from="UI/ControlsContainer/LockButton" to="UI" method="_on_LockButton_pressed"]

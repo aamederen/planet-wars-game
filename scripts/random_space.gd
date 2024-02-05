@@ -231,11 +231,14 @@ func play_sound(sound):
 		"build_rocket": $Sounds/ConstructionCompleted,
 		"infected_ship": $Sounds/EnemyAction,
 		"infected_planet": $Sounds/EnemyAction,
-		"created_monster": $Sounds/EnemyAction,
+		"created_monster": $Sounds/MonsterCreated,
 		"enemy_owned_planet": $Sounds/EnemyAction,
 		"enemy_owned_ship": $Sounds/EnemyAction,
 		"player_eliminated": $Sounds/EnemyAction,
-		"monster_dead": $Sounds/ConstructionCompleted
+		"monster_damaged": $Sounds/MonsterDamaged,
+		"monster_dead": $Sounds/MonsterDead,
+		"upgrade_created": $Sounds/UpgradeCreated,
+		"upgrade_picked": $Sounds/UpgradePicked
 	}
 	
 	sounds[sound].play()
