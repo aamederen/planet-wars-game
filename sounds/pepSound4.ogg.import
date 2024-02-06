@@ -11,5 +11,5 @@ dest_files=[ "res://.import/pepSound4.ogg-e352a16db574ce49e43eaa29ed4c13f0.oggst
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

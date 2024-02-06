@@ -223,10 +223,12 @@ func explode_ship(ship:Ship):
 
 func create_monster(planet):
 	var monster = get_owner().create_monster(planet)
+	play_sound("created_monster")
 	register_monster(monster)
 
 func damage_monster(monster):
 	monster.damage()
+	play_sound("monster_damaged")
 	if monster.is_dead():
 		kill_monster(monster)
 
@@ -296,7 +298,7 @@ func complete_process(process):
 		var pack = get_owner().create_upgrade_pack(planet)
 		pack.type = type
 		pack.brain = self
-		play_sound("build_rocket")
+		play_sound("upgrade_created")
 		ui.add_event("A new upgrade pack is created by " + bot.get_player_name())
 
 func register_bot(bot:Bot):
@@ -342,6 +344,7 @@ func monster_hit_someone(monster, target):
 func upgrade_pack_hit_something(pack, target):
 	if target == player:
 		player.upgrade(pack.type)
+		play_sound("upgrade_picked")
 		pack.queue_free()
 
 func rocket_collided(rocket, target):

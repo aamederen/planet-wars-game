@@ -25,6 +25,21 @@ var monster = preload("res://scenes/objects/monster.tscn")
 var upgrade_pack = preload("res://scenes/objects/upgrade_pack.tscn")
 
 
+onready var sounds = {
+	"build_ship": $Sounds/ConstructionCompleted,
+	"build_rocket": $Sounds/ConstructionCompleted,
+	"infected_ship": $Sounds/EnemyAction,
+	"infected_planet": $Sounds/EnemyAction,
+	"created_monster": $Sounds/MonsterCreated,
+	"enemy_owned_planet": $Sounds/EnemyAction,
+	"enemy_owned_ship": $Sounds/EnemyAction,
+	"player_eliminated": $Sounds/EnemyAction,
+	"monster_damaged": $Sounds/MonsterDamaged,
+	"monster_dead": $Sounds/MonsterDead,
+	"upgrade_created": $Sounds/UpgradeCreated,
+	"upgrade_picked": $Sounds/UpgradePicked
+}
+
 var rng = RandomNumberGenerator.new()
 var bb:BigBrain
 
@@ -226,21 +241,7 @@ func create_random_object(scene, loc=find_pos_for_planet()):
 	return node
 	
 func play_sound(sound):
-	var sounds = {
-		"build_ship": $Sounds/ConstructionCompleted,
-		"build_rocket": $Sounds/ConstructionCompleted,
-		"infected_ship": $Sounds/EnemyAction,
-		"infected_planet": $Sounds/EnemyAction,
-		"created_monster": $Sounds/MonsterCreated,
-		"enemy_owned_planet": $Sounds/EnemyAction,
-		"enemy_owned_ship": $Sounds/EnemyAction,
-		"player_eliminated": $Sounds/EnemyAction,
-		"monster_damaged": $Sounds/MonsterDamaged,
-		"monster_dead": $Sounds/MonsterDead,
-		"upgrade_created": $Sounds/UpgradeCreated,
-		"upgrade_picked": $Sounds/UpgradePicked
-	}
-	
+	print("playing sound " + sound)
 	sounds[sound].play()
 
 func random_vec3(minVec3 = cameraBounds[0], maxVec3 = cameraBounds[1]):

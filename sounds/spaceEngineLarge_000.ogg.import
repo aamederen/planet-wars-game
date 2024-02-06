@@ -11,5 +11,5 @@ dest_files=[ "res://.import/spaceEngineLarge_000.ogg-8bca7c703ccc48078ef49f9cfb3
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

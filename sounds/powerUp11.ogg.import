@@ -11,5 +11,5 @@ dest_files=[ "res://.import/powerUp11.ogg-32583b5b3c7ab71875794cbc76acfbce.oggst
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

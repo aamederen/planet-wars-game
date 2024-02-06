@@ -11,5 +11,5 @@ dest_files=[ "res://.import/slime_000.ogg-bb3b676b3b691b5fa960cd7ca6067660.oggst
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
