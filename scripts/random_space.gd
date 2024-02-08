@@ -27,7 +27,8 @@ var upgrade_pack = preload("res://scenes/objects/upgrade_pack.tscn")
 
 onready var sounds = {
 	"build_ship": $Sounds/ConstructionCompleted,
-	"build_rocket": $Sounds/ConstructionCompleted,
+	"build_rocket": $Sounds/RocketCreated,
+	"rocket_hit": $Sounds/RocketHit,
 	"infected_ship": $Sounds/EnemyAction,
 	"infected_planet": $Sounds/EnemyAction,
 	"created_monster": $Sounds/MonsterCreated,
@@ -37,7 +38,11 @@ onready var sounds = {
 	"monster_damaged": $Sounds/MonsterDamaged,
 	"monster_dead": $Sounds/MonsterDead,
 	"upgrade_created": $Sounds/UpgradeCreated,
-	"upgrade_picked": $Sounds/UpgradePicked
+	"upgrade_picked": $Sounds/UpgradePicked,
+	"trade_completed": $Sounds/TradeCompleted,
+	"fire": $Sounds/Fire,
+	"player_died": $Sounds/Died,
+	"won": $Sounds/Won
 }
 
 var rng = RandomNumberGenerator.new()
@@ -243,6 +248,9 @@ func create_random_object(scene, loc=find_pos_for_planet()):
 func play_sound(sound):
 	print("playing sound " + sound)
 	sounds[sound].play()
+
+func stop_music():
+	$Sounds/BackgroundMusic.stop()
 
 func random_vec3(minVec3 = cameraBounds[0], maxVec3 = cameraBounds[1]):
 	return Vector3(rng.randf_range(minVec3.x, maxVec3.x), \

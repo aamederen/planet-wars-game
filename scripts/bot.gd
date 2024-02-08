@@ -106,7 +106,7 @@ func think_and_play(bb, world):
 
 		bb.create_rocket(self, "attack", my_closest_planet_to_enemy, closest_enemy_planet)
 
-	if money > 200:
+	if money > 1200:
 		var target_planet = planets[randi() % planets.size()]
 		bb.create_upgrade_pack(self, target_planet)
 		

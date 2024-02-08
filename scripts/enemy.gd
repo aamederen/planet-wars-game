@@ -28,7 +28,7 @@ func think_and_play(bb, world):
 		if _should_create_monster(planet):
 			_log("CREATING MONSTER")
 			bb.create_monster(planet)
-			planet.set_infection(max(planet.infection_rate / 5, 0.1))
+			planet.set_infection(max(planet.infection_rate / 10, 0.1))
 		
 		var ships_near_planet = _get_ships_around_planet(planet, world)
 		for ship in ships_near_planet:
@@ -161,8 +161,7 @@ func _should_infect_planet(ship, planet):
 	return ship.infection_rate > 0.6 and rng.randf() < 0.1
 	
 func _should_create_monster(planet):
-	# Assuming planet is fully infected
-	return rng.randf() < 0.1
+	return planet.infection_rate > 0.6 && rng.randf() < 0.2
 
 func _log(msg):
 	print("[infection] ", msg)

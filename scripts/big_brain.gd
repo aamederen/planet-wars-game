@@ -62,6 +62,7 @@ func _on_turntimer_timeout():
 		for ship in bot.ships:
 			if ship.is_active() and ship.task["type"] == "trade" and ship.is_at_destination():
 				if ship.arrived_at(ship.task["source"]):
+					play_sound("trade_completed")
 					bot.add_money(ship.task["value"])
 					ship.task = null
 				else:
@@ -126,6 +127,7 @@ func _manage_world():
 	for rocket in rockets:
 		if rocket.distance_to_destination() < 100:
 			rockets_to_be_removed.append(rocket)
+			play_sound("rocket_hit")
 			
 			var bot = rocket.owner_bot
 			var planet = rocket.target_planet
@@ -261,7 +263,7 @@ func assign_task(task):
 		var target_planet := task["target"] as Planet
 		var source_planet := task["source"] as Planet
 		
-		task["value"] = target_planet.translation.distance_to(source_planet.translation)
+		task["value"] = floor(pow(target_planet.translation.distance_to(source_planet.translation), 1.2))
 		
 		if (ship.arrived_at(source_planet)):
 			task["state"] = "going_to_target"
@@ -354,6 +356,7 @@ func rocket_collided(rocket, target):
 		
 func create_fast_rocket(target):
 	var rocket = get_owner().create_fast_rocket(player.translation)
+	play_sound("fire")
 	rocket.brain = self
 	
 	var direction = rocket.translation.direction_to(target.translation)
@@ -361,10 +364,14 @@ func create_fast_rocket(target):
 	
 func game_over():
 	player.die()
-	yield(get_tree().create_timer(2.0), "timeout")
+	get_owner().stop_music()
+	play_sound("player_died")
+	yield(get_tree().create_timer(5.0), "timeout")
 	get_tree().change_scene("res://scenes/settings/gameover.tscn")
 
 func game_won():
+	play_sound("won")
+	yield(get_tree().create_timer(1.45), "timeout")
 	get_tree().change_scene("res://scenes/settings/gamewon.tscn")
 	
 func create_ship(bot:Bot, type:String, planet:Planet):
@@ -375,7 +382,7 @@ func create_ship(bot:Bot, type:String, planet:Planet):
 			"planet": planet,
 			"type": "build_ship",
 			"ship_type": "trading",
-			"turns_left": 5
+			"turns_left": 10
 		}
 		processes.append(process)
 		
@@ -388,12 +395,12 @@ func create_rocket(bot:Bot, type:String, from_planet:Planet, to_planet:Planet):
 			"rocket_type": "attack",
 			"from_planet": from_planet,
 			"to_planet": to_planet,
-			"turns_left": 5
+			"turns_left": 10
 		}
 		processes.append(process)
 
 func create_upgrade_pack(bot:Bot, planet:Planet):
-	bot.remove_money(100)
+	bot.remove_money(1000)
 	var process = {
 		"bot": bot,
 		"type": "create_upgrade_pack",
