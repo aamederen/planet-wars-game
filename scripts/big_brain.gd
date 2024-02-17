@@ -300,6 +300,7 @@ func complete_process(process):
 		var pack = get_owner().create_upgrade_pack(planet)
 		pack.type = type
 		pack.brain = self
+		pack.set_label(type)
 		play_sound("upgrade_created")
 		ui.add_event("A new upgrade pack is created by " + bot.get_player_name())
 
@@ -346,8 +347,8 @@ func monster_hit_someone(monster, target):
 func upgrade_pack_hit_something(pack, target):
 	if target == player:
 		player.upgrade(pack.type)
+		pack.picked()
 		play_sound("upgrade_picked")
-		pack.queue_free()
 
 func rocket_collided(rocket, target):
 	if target.is_in_group("Monster"):
