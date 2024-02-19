@@ -365,9 +365,10 @@ func create_fast_rocket(target):
 	
 func game_over():
 	player.die()
+	Globals.reset()
 	get_owner().stop_music()
 	play_sound("player_died")
-	yield(get_tree().create_timer(5.0), "timeout")
+	yield(get_tree().create_timer(4.0), "timeout")
 	get_tree().change_scene("res://scenes/settings/gameover.tscn")
 
 func game_won():

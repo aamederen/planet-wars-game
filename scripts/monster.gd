@@ -51,13 +51,12 @@ func _physics_process(delta):
 			anim.playback_speed = 0.4
 		
 		# if reached the roaming target or end of camera boundaries
-		if !target_position || target_position.distance_squared_to(translation) < 1000 || _is_hit_boundaries():
-			var random_pos_range 
-			if boundaries:
-				random_pos_range = Vector2(abs(boundaries[1].x - boundaries[0].x), abs(boundaries[1].y - boundaries[0].y))
-			else:
-				random_pos_range = Vector2(500, 500)
-			target_position = translation + Vector3(rand_range(-random_pos_range.x/2, random_pos_range.x/2), rand_range(-random_pos_range.y/2, random_pos_range.y/2), 0)
+		if _is_hit_boundaries():
+			target_position = Vector3(0, 0, 0)
+		elif !target_position || target_position.distance_squared_to(translation) < 100:
+			var target_shift = (300 + randi() % 200) * Vector3.LEFT.rotated(Vector3.FORWARD, deg2rad(randi() % 360))
+			target_position = translation + target_shift
+			
 		target_velocity = min_velocity
 	
 	var direction = translation.direction_to(target_position)
