@@ -18,6 +18,7 @@ func set_mission(owner_bot:Bot, target:Planet):
 	self.owner_bot = owner_bot
 	self.target_planet = target
 	self.destination = target.translation
+	self.destination.z = -50
 	self.set_halo_color(owner_bot.color)
 
 func _ready():

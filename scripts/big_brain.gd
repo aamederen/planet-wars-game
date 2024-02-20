@@ -68,6 +68,7 @@ func _on_turntimer_timeout():
 				else:
 					ship.task["state"] = "returning_to_base"
 					ship.destination = ship.task["source"].translation
+					ship.destination.z = -50
 			
 	var processes_to_be_removed = []
 	for process in processes:
@@ -271,6 +272,8 @@ func assign_task(task):
 		else:
 			task["state"] = "going_to_base"
 			ship.destination = source_planet.translation
+		
+		ship.destination.z = -50
 		
 	ship.task = task
 

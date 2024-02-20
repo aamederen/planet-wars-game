@@ -120,7 +120,7 @@ process_material = SubResource( 16 )
 draw_pass_1 = SubResource( 18 )
 
 [node name="LabelSprite" type="Sprite3D" parent="."]
-transform = Transform( 20, 0, 0, 0, 10, 0, 0, 0, 1, 0, 40, 20 )
+transform = Transform( 20, 0, 0, 0, 10, 0, 0, 0, 1, 0, 40, -50 )
 billboard = 1
 texture = SubResource( 1 )
 
@@ -139,7 +139,7 @@ align = 1
 valign = 1
 
 [node name="HealthSprite" type="Sprite3D" parent="."]
-transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 1, 0, 5, 40 )
+transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 1, 0, 5, 0 )
 billboard = 1
 texture = SubResource( 2 )
 
@@ -162,6 +162,7 @@ valign = 1
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
 shape = SubResource( 3 )
+disabled = true
 
 [node name="MinimapIndicator" type="MeshInstance" parent="."]
 layers = 2

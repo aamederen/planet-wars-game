@@ -157,6 +157,7 @@ func create_new_ship(type, planet):
 	if type == "trading":
 		var ship = big_ship.instance()
 		ship.translation = planet.translation
+		ship.translation.z = -50
 		$Objects.add_child(ship)
 		connect("ui_details_changed", ship, "update_halo")
 		return ship as Ship
@@ -164,6 +165,7 @@ func create_new_ship(type, planet):
 func create_big_rocket(planet):
 	var rocket = big_rocket.instance()
 	rocket.translation = planet.translation
+	rocket.translation.z = -50
 	$Objects.add_child(rocket)
 	connect("ui_details_changed", rocket, "update_halo")
 	return rocket as Rocket

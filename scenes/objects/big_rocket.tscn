@@ -97,6 +97,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.65162 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 shape = SubResource( 7 )
+disabled = true
 
 [node name="Halo" type="CSGSphere" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.6927 )
