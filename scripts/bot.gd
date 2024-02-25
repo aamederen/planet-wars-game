@@ -77,11 +77,17 @@ func think_and_play(bb, world):
 	# Check my current ships and assign tasks to the idle ones
 	for ship in ships:
 		if not ship.is_active():
-			if visible_planets.size() == 0:
-				continue
-			
-			visible_planets.shuffle()
-			var trade_target = visible_planets[0]
+			var trade_target
+			var trade_source
+			if visible_planets.size() != 0:
+				visible_planets.shuffle()
+				trade_target = visible_planets[0]
+				trade_source = bb.closest_planet_to(planets, ship.translation)
+			elif planets.size() > 1:
+				var shuffled_planets = planets.duplicate()
+				trade_source = bb.closest_planet_to(planets, ship.translation)
+				shuffled_planets.erase(trade_source)
+				trade_target = shuffled_planets[randi() % shuffled_planets.size()]
 			
 			bb.assign_task({
 				"type": "trade",

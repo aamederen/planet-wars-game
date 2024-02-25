@@ -197,6 +197,15 @@ func _eliminate_player(p):
 	# Remove all ships
 	while p.ships.size() != 0:
 		explode_ship(p.ships[0])
+		
+	# Remove all rockets
+	var rockets_to_be_removed = []
+	for r in rockets:
+		if r.owner_bot == p:
+			rockets_to_be_removed.append(r)
+	for r in rockets:
+		rockets.erase(r)
+		r.queue_free()
 	
 	# Cancel the processes
 	var processes_to_be_removed = []
@@ -265,6 +274,8 @@ func assign_task(task):
 		var source_planet := task["source"] as Planet
 		
 		task["value"] = floor(pow(target_planet.translation.distance_to(source_planet.translation), 1.2))
+		if source_planet.belongs_to == target_planet.belongs_to:
+			task["value"] /= 2
 		
 		if (ship.arrived_at(source_planet)):
 			task["state"] = "going_to_target"
