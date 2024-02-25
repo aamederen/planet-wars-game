@@ -23,11 +23,16 @@ func is_active():
 func arrived_at(target):
 	if not target:
 		return false
+	
+	var the_target:Vector3
+	if target is Vector3:
+		the_target = target
+	else:
+		the_target = target.translation
+	
+	the_target = Vector3(the_target.x, the_target.y, -50)
 		
-	if ! target is Vector3:
-		target = target.translation
-		
-	return target.distance_squared_to(translation) < 101
+	return the_target.distance_squared_to(translation) < 101
 	
 func is_at_destination():
 	return arrived_at(self.destination)
