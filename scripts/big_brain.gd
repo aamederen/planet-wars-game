@@ -315,6 +315,7 @@ func complete_process(process):
 		pack.type = type
 		pack.brain = self
 		pack.set_label(type)
+		pack.created()
 		play_sound("upgrade_created")
 		ui.add_event("A new upgrade pack is created by " + bot.get_player_name())
 

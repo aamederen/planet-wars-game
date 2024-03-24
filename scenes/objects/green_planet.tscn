@@ -49,12 +49,12 @@ angular_velocity = 20.0
 scale = 4.0
 scale_random = 1.0
 
-[sub_resource type="SpatialMaterial" id=17]
+[sub_resource type="SpatialMaterial" id=19]
 flags_transparent = true
 albedo_color = Color( 0, 0.45098, 1, 0.301961 )
 
 [sub_resource type="CapsuleMesh" id=18]
-material = SubResource( 17 )
+material = SubResource( 19 )
 
 [sub_resource type="ViewportTexture" id=1]
 viewport_path = NodePath("LabelSprite/Viewport")
@@ -167,7 +167,6 @@ disabled = true
 [node name="MinimapIndicator" type="MeshInstance" parent="."]
 layers = 2
 mesh = SubResource( 11 )
-material/0 = null
 
 [connection signal="input_event" from="Area" to="." method="_on_Area_input_event"]
 [connection signal="mouse_entered" from="Area" to="." method="_on_Area_mouse_entered"]

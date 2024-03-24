@@ -19,3 +19,6 @@ func set_label(type:String):
 	
 func picked():
 	$AnimationPlayer.play("Picked")
+	
+func created():
+	$CreateParticles.emitting = true
